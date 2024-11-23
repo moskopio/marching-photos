@@ -1,6 +1,5 @@
+import { DeepPartial, Rotation, Track, Vec3 } from "src/types"
 import { flipConstrain } from "src/utils/util"
-import { DeepPartial, Rotation, Track } from "src/types"
-import { Vec3 } from "src/math/v3"
 import { deepSet, deepUpdate } from "src/utils/merge"
 
 export interface Camera { 

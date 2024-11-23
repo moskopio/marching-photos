@@ -1,9 +1,10 @@
 import fragmentShaderSource from 'src/preview/glsl/raymarch.frag'
 import vertexShaderSource from 'src/preview/glsl/raymarch.vert'
-import { Program, Settings } from 'src/types'
+import { Camera } from 'src/state/camera'
+import { Program } from 'src/types'
 import { setupAttributes, updateAttributes } from 'src/webgl/attributes'
 import { createShaderProgram } from 'src/webgl/program'
-import { getUniforms, updateUniforms } from 'src/webgl/uniforms'
+import { getUniforms, prepareValues, updateUniforms } from 'src/webgl/uniforms'
 
 export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null {
   const program = createShaderProgram(gl, vertexShaderSource, fragmentShaderSource)
@@ -23,7 +24,7 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     1.0,  0.0,
     1.0,  1.0])
   
-  return { cleanup, draw, updateSettings }
+  return { cleanup, draw, updateCamera }
   
   function cleanup(): void {
     Object.values(attributes).forEach(a => gl.deleteBuffer(a.b))
@@ -39,11 +40,13 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     gl.drawArrays(gl.TRIANGLES, 0, 6)
   }
   
-  function updateSettings(settings: Settings): void {
-    const { resolution } = settings
-    const { width, height } = resolution
-    
+  function updateCamera(camera: Camera): void {
+    const { rotation, track, ...rest } = camera
+    const { theta, phi } = rotation
+    const { x, y } = track
     gl.useProgram(program!)
-    updateUniforms({ gl, uniforms, values: { resolution: [width, height] } })
+    
+    const values = prepareValues({...rest, rotation: [theta, phi], track: [x, y] } )
+    updateUniforms({ gl, uniforms, values })
   }
 }

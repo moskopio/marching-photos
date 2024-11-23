@@ -1,6 +1,9 @@
 precision mediump float;
 
-uniform vec2 uResolution; // TODO: pass it and react to resolution change
+varying vec2 vPos;
+
+uniform float uTime;
+uniform float uAspectRatio;
 
 // Scene distance
 float map(vec3 p) {
@@ -8,11 +11,7 @@ float map(vec3 p) {
 }
 
 void main() {
-  vec2 fragCoord = gl_FragCoord.xy;
-  
-  // TOOD: use uniform!
-  vec2 resolution = vec2(1000, 1000);
-  vec2 uv = (fragCoord * 2. - resolution.xy) / resolution.y;
+  vec2 uv = vec2(vPos.x * uAspectRatio, vPos.y);
   
   // Initialization
   vec3 ro = vec3(0, 0, -3);         // ray origin
@@ -33,9 +32,7 @@ void main() {
     if (t > 100.) break;      // early stop if too far
   }
   
-  col = vec3(t * .2);           // color based on distance
+  col = vec3(t * .1) + vec3(uv, 0);           // color based on distance
   
-    
-  // gl_FragColor = vec4(1, 0, 0, 1);
   gl_FragColor = vec4(col, 1);
 }

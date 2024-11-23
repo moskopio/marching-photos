@@ -1,6 +1,8 @@
-import { Matrix4 } from "src/math/m4"
-import { Vec3 } from "src/math/v3"
+import { Camera } from "src/state/camera"
 
+export type Vec3 = [number, number, number]
+export type Vec4 = [number, number, number, number]
+export type Matrix4 = number[]
 export type FileContent = string | ArrayBuffer | null | undefined
 
 export interface Dict<T> {
@@ -14,10 +16,9 @@ export type DeepPartial<T> = {
 export type ViewMatrices = Dict<Matrix4 | Vec3>
 
 export interface Program {
-  cleanup:         () => void
-  draw:            (time: number) => void
-  updateSettings?: (settings: Settings) => void
-  updateCamera?:   (views: ViewMatrices) => void
+  cleanup:       () => void
+  draw:          (time: number) => void
+  updateCamera?: (views: Camera) => void
 }
 
 export interface Settings {
