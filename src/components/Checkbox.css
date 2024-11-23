@@ -1,0 +1,25 @@
+.checkbox {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.checkbox-box {
+  border: var(--elements-border) var(--highlight-color) solid;
+  box-shadow: inset 0px 0px 0px 1px var(--shadow-color);
+  outline: var(--elements-border) var(--shadow-color) solid;
+  height: 15px;
+  width: 15px;
+  border-radius: 14px;
+}
+
+.checkbox-label {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  color: var(--highlight-color);
+  font-family: monospace;
+  user-select: none;
+  text-shadow: var(--text-shadow);
+}
