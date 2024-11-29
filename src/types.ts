@@ -21,14 +21,7 @@ export interface Program {
   updateCamera?: (views: Camera) => void
 }
 
-export interface Settings {
-  resolution: Resolution
-}
-
-export interface Resolution {
-  width:  number
-  height: number
-}
+export type Resolution = [width: number, height: number]
 
 export interface Rotation {
   theta: number

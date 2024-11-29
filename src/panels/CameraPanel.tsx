@@ -1,8 +1,6 @@
 import { Fragment, ReactElement, useCallback, useContext } from "react"
 import { Divider } from "src/components/Divider"
-import { Label } from "src/components/Label"
 import { Panel } from "src/components/Panel"
-import { SettingsPortal } from "src/components/SettingsPortal"
 import { Slider } from "src/components/Slider"
 import { AppContext } from "src/state/context"
 import { createPallette, PASTEL_COLORS } from "src/utils/color"
@@ -12,7 +10,6 @@ export function CameraPanel(): ReactElement {
     <Panel label="Camera" icon="camera" color={PASTEL_COLORS.pancho}>
       <Rotation />
       <Position />
-      <Camera />
     </Panel>
   )
 }
@@ -94,66 +91,12 @@ function Position(): ReactElement {
       <Slider
         label={`Dolly ${camera.dolly.toFixed(2)}`} 
         min={0}
-        max={10}
+        max={1}
         onChange={setDolly}
-        defaultValue={2.5}
+        defaultValue={0}
         value={camera.dolly}
         color={pallette.getNextColor()}
       />
-    </Fragment>
-  )
-}
-
-function Camera(): ReactElement {
-  const { camera, cameraDispatch } = useContext(AppContext)
-  const pallette = createPallette(5)
-
-  const setFOV = useCallback((fov: number) => {
-    cameraDispatch({ type: "set", fov: Math.floor(fov) })
-  }, [cameraDispatch])
-  
-  const setZNear = useCallback((zNear: number) => {
-    cameraDispatch({ type: "set", zNear })
-  }, [cameraDispatch])
-  
-  const setZFar = useCallback((zFar: number) => {
-    cameraDispatch({ type: "set", zFar })
-  }, [cameraDispatch])
-  
-  return (
-    <Fragment>
-      <div className="horizontal-setting">
-      <Label label='Advanced...' />
-      <SettingsPortal label='Camera'>
-      <Slider
-        label={`FOV ${Math.floor(camera.fov)}`} 
-        min={1}
-        max={180}
-        onChange={setFOV}
-        defaultValue={60}
-        value={camera.fov}
-        color={pallette.getNextColor()}
-      />
-      <Slider
-        label={`ZNear ${camera.zNear.toFixed(2)}`} 
-        min={-100}
-        max={100}
-        onChange={setZNear}
-        defaultValue={0}
-        value={camera.zNear}
-        color={pallette.getNextColor()}
-      />
-      <Slider
-        label={`ZFar ${camera.zFar.toFixed(2)}`} 
-        min={1}
-        max={100}
-        onChange={setZFar}
-        defaultValue={50}
-        value={camera.zFar}
-        color={pallette.getNextColor()}
-      />
-      </SettingsPortal>
-      </div>
     </Fragment>
   )
 }

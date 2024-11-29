@@ -1,3 +1,4 @@
+import { degToRad } from 'src/math/utls'
 import fragmentShaderSource from 'src/preview/glsl/raymarch.frag'
 import vertexShaderSource from 'src/preview/glsl/raymarch.vert'
 import { Camera } from 'src/state/camera'
@@ -23,7 +24,7 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     0.0,  1.0,
     1.0,  0.0,
     1.0,  1.0])
-  
+    
   return { cleanup, draw, updateCamera }
   
   function cleanup(): void {
@@ -41,12 +42,18 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
   }
   
   function updateCamera(camera: Camera): void {
-    const { rotation, track, ...rest } = camera
+    const { rotation, aspectRatio, track, dolly } = camera
     const { theta, phi } = rotation
+    
     const { x, y } = track
     gl.useProgram(program!)
     
-    const values = prepareValues({...rest, rotation: [theta, phi], track: [x, y] } )
+    const values = prepareValues({
+      aspectRatio, 
+      track: [x, y], 
+      rotation: [degToRad(theta), degToRad(phi)],
+      dolly: [dolly]
+    })
     updateUniforms({ gl, uniforms, values })
   }
 }

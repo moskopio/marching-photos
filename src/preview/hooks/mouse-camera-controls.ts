@@ -95,7 +95,7 @@ export function useMouseCameraControls(): void {
       
       if (shift.current) {
         // sensitivity should be based on distance!
-        cameraDispatch({ type: 'update', track: { x: xDelta / 50, y: -yDelta / 50 } })
+        cameraDispatch({ type: 'update', track: { x: xDelta / 100, y: -yDelta / 100 } })
       } else {
         cameraDispatch({ type: 'update', rotation: { theta: -yDelta, phi: xDelta } } )
       }
