@@ -1,11 +1,11 @@
 import { ReactElement, useLayoutEffect, useRef, useState } from "react"
 import { useAdjustResolution } from "src/preview/hooks/adjust-resolution"
 import { useWebGLContext } from "src/preview/hooks/webgl-context"
+import { Resolution } from "src/types"
 import './WebGLPreview.css'
 import { useMouseCameraControls } from "./hooks/mouse-camera-controls"
+import { useRenderScene } from "./hooks/render-scene"
 import { useTouchCameraControls } from "./hooks/touch-camera-controls"
-import { useRenderScene } from "src/preview/hooks/render-scene"
-import { Resolution } from "src/types"
 
 export function WebGLPreview(): ReactElement {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -21,7 +21,7 @@ export function WebGLPreview(): ReactElement {
     window.addEventListener('resize', updateResolution)
     return () => window.removeEventListener('resize', updateResolution)
     
-    function updateResolution(): void {      
+    function updateResolution(): void {
       const dpr = window.devicePixelRatio
       const displayWidth  = Math.round(window.innerWidth * dpr)
       const displayHeight = Math.round(window.innerHeight * dpr)

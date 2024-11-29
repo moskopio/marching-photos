@@ -1,6 +1,7 @@
 import { degToRad } from 'src/math/utls'
 import fragmentShaderSource from 'src/preview/glsl/raymarch.frag'
 import vertexShaderSource from 'src/preview/glsl/raymarch.vert'
+import { createShaderSource } from 'src/preview/glsl/utils'
 import { Camera } from 'src/state/camera'
 import { Program } from 'src/types'
 import { setupAttributes, updateAttributes } from 'src/webgl/attributes'
@@ -8,7 +9,9 @@ import { createShaderProgram } from 'src/webgl/program'
 import { getUniforms, prepareValues, updateUniforms } from 'src/webgl/uniforms'
 
 export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null {
-  const program = createShaderProgram(gl, vertexShaderSource, fragmentShaderSource)
+  
+  const fragmentSourceComposed = createShaderSource(fragmentShaderSource)
+  const program = createShaderProgram(gl, vertexShaderSource, fragmentSourceComposed)
   if (!program) {
     console.error('Failed to create a WebGL Wireframe Program')
     return null
