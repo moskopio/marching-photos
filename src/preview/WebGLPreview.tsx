@@ -1,6 +1,6 @@
-import { ReactElement, useLayoutEffect, useRef, useState } from "react"
-import { useAdjustResolution } from "src/preview/hooks/adjust-resolution"
+import { ReactElement, useContext, useLayoutEffect, useRef, useState } from "react"
 import { useWebGLContext } from "src/preview/hooks/webgl-context"
+import { AppContext } from "src/state/context"
 import { Resolution } from "src/types"
 import './WebGLPreview.css'
 import { useMouseCameraControls } from "./hooks/mouse-camera-controls"
@@ -10,9 +10,9 @@ import { useTouchCameraControls } from "./hooks/touch-camera-controls"
 export function WebGLPreview(): ReactElement {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [resolution, setResolution] = useState<Resolution>([ window.innerWidth, window.innerHeight])
+  const { cameraDispatch } = useContext(AppContext)
   
   const gl = useWebGLContext({ canvasRef })
-  useAdjustResolution({gl, resolution })
   useMouseCameraControls()
   useTouchCameraControls({ canvasRef })
   useRenderScene({ gl })
@@ -25,10 +25,12 @@ export function WebGLPreview(): ReactElement {
       const dpr = window.devicePixelRatio
       const displayWidth  = Math.round(window.innerWidth * dpr)
       const displayHeight = Math.round(window.innerHeight * dpr)
-    
+      
+      gl?.viewport(0, 0, displayWidth, displayHeight)
       setResolution([displayWidth, displayHeight])
+      cameraDispatch({ type: 'set', aspectRatio: displayWidth / displayHeight})
     }
-  }, [gl, setResolution])
+  }, [gl, setResolution, cameraDispatch])
   
   return (
     <canvas

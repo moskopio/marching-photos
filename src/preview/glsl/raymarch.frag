@@ -80,7 +80,7 @@ void main() {
   
   // Initialization
   vec3 origin = vec3(0, 0, -3);
-  vec3 direction = normalize(vec3(uv, 1.0));
+  vec3 direction = normalize(vec3(uv * 0.5, 1.0));
   
   origin.xy -= uTrack;
   direction.xy -= uTrack;
@@ -95,7 +95,7 @@ void main() {
   vec3 position = origin + distance * direction;
   vec3 normal = estimateNormal(position);
   
-  Light light = Light(vec3(sin(uTime / 2000.0), 1, cos(uTime / 2000.0)), vec3(0.1), vec3(0.5), vec3(1), vec3(0, 0, 1), 20.0);
+  Light light = Light(vec3(sin(uTime / 2000.0), 1, cos(uTime / 2000.0)), vec3(0.1, 0, 0.1), vec3(0, 0.8, 0.8), vec3(1), vec3(1, 0, 0), 20.0);
   ShadingCommon common = ShadingCommon(position, normal, origin);
   
   vec3 lightColor = calculateLambertShading(common, light);

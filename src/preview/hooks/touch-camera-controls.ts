@@ -2,7 +2,7 @@ import { RefObject, useContext, useEffect, useRef } from "react"
 import { AppContext } from "src/state/context"
 
 const EVENT_SENSITIVITY = 0.3
-const PINCH_SENSITIVITY = 0.02
+const PINCH_SENSITIVITY = 0.005
 const PINCH_THRESHOLD = 5
 
 interface Args {
@@ -72,7 +72,7 @@ export function useTouchCameraControls(args: Args): void {
           const delta = (firstTouchesDistance - lastTouchesDistance) * PINCH_SENSITIVITY
           cameraDispatch({ type: 'update', dolly: delta } )
         } else {
-          cameraDispatch({ type: 'update', track: { x: xDelta / 50, y: -yDelta * PINCH_SENSITIVITY } })
+          cameraDispatch({ type: 'update', track: { x: xDelta * PINCH_SENSITIVITY, y: -yDelta * PINCH_SENSITIVITY } })
         }
       } else {
         cameraDispatch({ type: 'update', rotation: { theta: -yDelta, phi: xDelta } } )
