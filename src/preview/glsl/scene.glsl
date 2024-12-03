@@ -1,6 +1,3 @@
-#define BOARD_SIZE 2.0
-
-uniform sampler2D uImage;
 
 float round(in float x) {
   return floor(x + 0.5);
@@ -14,45 +11,35 @@ vec3 round(in vec3 x) {
   return floor(x + vec3(0.5));
 }
 
-// TODO: fix?
-float constrain(in float x, in float min, in float max) {
-  return x < max 
-    ? x > min ? x : min
-    : max;
-}
-
-float sampleSphere(in vec3 ray, in vec2 st, in float size) {
-  float samples = 1.0 / size;
+float sampleSphere(in vec3 ray, in vec2 st, in vec2 size) {
   vec4 texture = texture2D(uImage, st);
   float averange = 1.0 - (texture.x + texture.y + texture.z) / 3.0;
+  float scale = min(size.x, size.y) * 0.5;
   
-  float dotSize = (st.x + st.y) * 0.5 * size * 0.5;
-  dotSize = averange * size * 0.5;
+  float dotSize = (st.x + st.y) * 0.5 * scale;
+  dotSize = averange * scale;
   
   return sdSphere(ray, vec3(0, 0, 0), dotSize);
 }
 
 
-float repeated(in vec3 ray, in float samples) {
-  float size = 1.0 / samples;
+float repeated(in vec3 ray, in vec2 samples) {
+  vec2 size = 2.0 / samples;
+  vec2 constrains = samples / 2.0;
   
-  vec3 repeatedRay = ray;
-  repeatedRay.x = ray.x - size * clamp(round(ray.x / size), -samples, samples);
-  repeatedRay.y = ray.y - size * clamp(round(ray.y / size), -samples, samples);
+  vec3 repetition = ray;
+  repetition.x = ray.x - size.x * clamp(round(ray.x / size.x), -constrains.x, constrains.x);
+  repetition.y = ray.y - size.y * clamp(round(ray.y / size.y), -constrains.y, constrains.y);
 
-  float sampleCount = samples * 2.0;
-  // this is not working as expected, as it will value it based on pixel!
   vec2 id = ray.xy;
-  // vec2 id = round(ray.xy / size);
   id.x = (id.x + 1.0) / 2.0;
-  id.x = round((id.x) * sampleCount) / sampleCount;
-  // id.x = round(id.x / size);
+  id.x = round((id.x) * samples.x) / samples.x;
   id.y = 1.0 - (id.y + 1.0) / 2.0;
-  id.y = round((id.y) * sampleCount) / sampleCount;
+  id.y = round((id.y) * samples.y) / samples.y;
   
-  return sampleSphere(repeatedRay, id, size);
+  return sampleSphere(repetition, id, size);
 }
 
 float sdScene(vec3 ray) {
-  return repeated(ray, 40.0);
+  return repeated(ray, vec2(20.0, 20.0));
 }

@@ -9,3 +9,5 @@ uniform vec2 uResolution;
 uniform vec2 uTrack;
 uniform vec2 uRotation;
 uniform float uDolly;
+
+uniform sampler2D uImage;

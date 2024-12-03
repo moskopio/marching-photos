@@ -33,7 +33,7 @@ vec4 calculateSceneColor(in vec3 origin, in vec3 direction, in Scene scene) {
   float shadow = calculateShadows(position, light.position, 0.01, 1.0, 0.1);
   float occlusion = calculateAO(position, normal);
   
-  vec3 color = lightColor; // * shadow * occlusion;
+  vec3 color = lightColor * shadow * occlusion;
   // color = light.diffuse;
   // color = pow(color, vec3(0.4545));
   // color = normal;
