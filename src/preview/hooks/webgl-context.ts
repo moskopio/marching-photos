@@ -9,13 +9,10 @@ export function useWebGLContext(props: Props): WebGLRenderingContext | null {
   const [context, setContext] = useState<WebGLRenderingContext | null>(null)
   
   useEffect(() => {
-    const gl = canvasRef.current?.getContext("webgl", {antialias: true, depth: true })
-    const depthTexture = gl?.getExtension('WEBGL_depth_texture')
+    const gl = canvasRef.current?.getContext("webgl2", {antialias: true, depth: true })
     
-    !gl && console.error('failed to create gl context')
-    !depthTexture && console.error('failed to get WEBGL_depth_texture plugin')
     
-    gl && depthTexture && setContext(gl)
+    gl && setContext(gl)
   }, [canvasRef])
   
   return context

@@ -1,8 +1,10 @@
-attribute vec2 aPosition;
-attribute vec2 aTexCoord;
+#version 300 es
 
-varying vec2 vPos;
-varying vec2 vTexPos;
+in vec2 aPosition;
+in vec2 aTexCoord;
+
+out vec2 vPos;
+out vec2 vTexPos;
 
 void main() {
   vec2 zeroToTwo = aPosition * 2.0;

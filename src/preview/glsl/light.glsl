@@ -14,3 +14,9 @@ struct ShadingCommon {
   vec3 normal;
   vec3 origin;
 };
+
+
+struct Scene {
+  Light         light;
+  ShadingCommon shadingCommon;
+};

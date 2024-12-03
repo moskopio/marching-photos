@@ -1,7 +1,5 @@
+#version 300 es
 precision mediump float;
-
-varying vec2 vPos;
-varying vec2 vTexPos;
 
 uniform float uTime;
 uniform float uAspectRatio;

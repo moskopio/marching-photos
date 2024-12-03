@@ -1,6 +1,9 @@
-vec3 calculateLambertShading(in ShadingCommon common, in Light light) {
-  vec3 normal = normalize(common.normal);
-  vec3 cameraPosition = normalize(common.origin);
+vec3 calculateLambertShading(in Scene scene) {
+  Light light = scene.light;
+  ShadingCommon shadingCommon = scene.shadingCommon;
+  
+  vec3 normal = normalize(shadingCommon.normal);
+  vec3 cameraPosition = normalize(shadingCommon.origin);
   vec3 lightPosition = normalize(light.position);
   
   float toLightNormal = clamp(dot(lightPosition, normal), 0.0, 1.0);
@@ -16,5 +19,5 @@ vec3 calculateLambertShading(in ShadingCommon common, in Light light) {
   vec3 specular = light.specular * diffuseShade * specularShade;
   vec3 fresnel = light.fresnel * fresnelShade * (1.0 - diffuseShade);
   
-  return ambient + diffuse + specular;// + fresnel;
+  return ambient + diffuse + specular + fresnel;
 }
