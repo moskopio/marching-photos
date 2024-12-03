@@ -16,7 +16,7 @@ export function createDefaultCamera(): Camera {
   return {
     aspectRatio: 3 / 2,
     target:      [0, 0, 0] as Vec3,
-    rotation:    { theta: 30, phi: 0 },
+    rotation:    { theta: 0, phi: 0 },
     dolly:       0.3,
     track:       { x: 0, y : 0 }
   }

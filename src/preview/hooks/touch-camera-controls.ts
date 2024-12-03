@@ -37,15 +37,12 @@ export function useTouchCameraControls(args: Args): void {
       touches.current = event.touches
       
       if (event.touches.length > 1) {
-        console.log('more buttons')
         pinch.current = event.touches
         shift.current = true
       }
     }
     
     function onTouchEnd(): void {
-      
-      console.log('test')
       canvas?.removeEventListener('touchend',    onTouchEnd)
       canvas?.removeEventListener('touchcancel', onTouchEnd)
       canvas?.removeEventListener('touchmove',   onTouchMove)

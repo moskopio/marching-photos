@@ -22,6 +22,7 @@ float constrain(in float x, in float min, in float max) {
 }
 
 float sampleSphere(in vec3 ray, in vec2 st, in float size) {
+  float samples = 1.0 / size;
   vec4 texture = texture2D(uImage, st);
   float averange = 1.0 - (texture.x + texture.y + texture.z) / 3.0;
   
@@ -31,15 +32,15 @@ float sampleSphere(in vec3 ray, in vec2 st, in float size) {
   return sdSphere(ray, vec3(0, 0, 0), dotSize);
 }
 
-float repeated(in vec3 ray, in float size) {
-  vec3 repeatedRay = ray;
-  float minConstrain = -1.0 - size / 2.0;
-  float maxConstrain = 1.0 + size / 2.0;
-  
-  repeatedRay.x = ray.x - size * round(ray.x / size);
-  repeatedRay.y = ray.y - size * round(ray.y / size);
 
-  float sampleCount = 2.0 / size;
+float repeated(in vec3 ray, in float samples) {
+  float size = 1.0 / samples;
+  
+  vec3 repeatedRay = ray;
+  repeatedRay.x = ray.x - size * clamp(round(ray.x / size), -samples, samples);
+  repeatedRay.y = ray.y - size * clamp(round(ray.y / size), -samples, samples);
+
+  float sampleCount = samples * 2.0;
   // this is not working as expected, as it will value it based on pixel!
   vec2 id = ray.xy;
   // vec2 id = round(ray.xy / size);
@@ -53,5 +54,5 @@ float repeated(in vec3 ray, in float size) {
 }
 
 float sdScene(vec3 ray) {
-  return repeated(ray, 0.05);
+  return repeated(ray, 40.0);
 }
