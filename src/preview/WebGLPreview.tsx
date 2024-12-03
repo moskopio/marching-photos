@@ -9,7 +9,7 @@ import { useTouchCameraControls } from "./hooks/touch-camera-controls"
 
 export function WebGLPreview(): ReactElement {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [resolution, setResolution] = useState<Resolution>([ window.innerWidth, window.innerHeight])
+  const [resolution, setResolution] = useState<Resolution>([window.innerWidth, window.innerHeight])
   const { cameraDispatch } = useContext(AppContext)
   
   const gl = useWebGLContext({ canvasRef })

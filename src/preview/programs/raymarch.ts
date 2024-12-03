@@ -18,6 +18,7 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
   }
   const attributes = {
     position: { p: gl.getAttribLocation(program, 'aPosition'), s: 2, b: gl.createBuffer()! },
+    texture:  { p: gl.getAttribLocation(program, 'aTexCoord'), s: 2, b: gl.createBuffer()! },
   }
   const uniforms = getUniforms(gl, program)
   const position = new Float32Array([
@@ -28,6 +29,15 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     1.0,  0.0,
     1.0,  1.0])
     
+  const texture = new Float32Array([
+    0.0,  0.0,
+    1.0,  0.0,
+    0.0,  1.0,
+    0.0,  1.0,
+    1.0,  0.0,
+    1.0,  1.0])
+    
+  loadTexture()
   return { cleanup, draw, updateCamera }
   
   function cleanup(): void {
@@ -39,7 +49,7 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     gl.useProgram(program!)
     setupAttributes({ gl, attributes })
 
-    updateAttributes({ gl, attributes, values: { position } })
+    updateAttributes({ gl, attributes, values: { position, texture } })
     updateUniforms({ gl, uniforms, values: { time: [time] } })
     gl.drawArrays(gl.TRIANGLES, 0, 6)
   }
@@ -52,11 +62,27 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     gl.useProgram(program!)
     
     const values = prepareValues({
-      aspectRatio, 
-      track: [x, y], 
+      aspectRatio,
+      dolly,
       rotation: [degToRad(theta), degToRad(phi)],
-      dolly: [dolly]
+      track:    [x, y],
     })
     updateUniforms({ gl, uniforms, values })
+  }
+  
+  // Temp!
+  function loadTexture(): void {
+    const image = new Image()
+    image.src = "/marching-photos/test.jpg"
+    image.onload = function() {
+      const texture = gl.createTexture()
+      gl.bindTexture(gl.TEXTURE_2D, texture)
+      
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
+    }
   }
 }
