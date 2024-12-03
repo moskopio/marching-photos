@@ -33,8 +33,11 @@ vec4 calculateSceneColor(in vec3 origin, in vec3 direction, in Scene scene) {
   float shadow = calculateShadows(position, light.position, 0.01, 1.0, 0.1);
   float occlusion = calculateAO(position, normal);
   
-  vec3 color = lightColor * shadow * occlusion;
-  color = pow(color, vec3(0.4545));
+  vec3 color = lightColor; // * shadow * occlusion;
+  // color = light.diffuse;
+  // color = pow(color, vec3(0.4545));
+  // color = normal;
+  
   float alpha = distance >= 100.0 ? 0.0 : 1.0;
   
   return vec4(color, alpha);
@@ -44,7 +47,7 @@ void main() {
   vec2 uv = vec2(vPos.x * uAspectRatio, vPos.y);
   // Initialization
   vec3 origin = vec3(0, 0, -3);
-  vec3 direction = normalize(vec3(uv * 0.5, 1.0));
+  vec3 direction = normalize(vec3(uv * 0.25, 1.0));
   
   origin.xy -= uTrack;
   direction.xy -= uTrack;

@@ -37,12 +37,15 @@ export function useTouchCameraControls(args: Args): void {
       touches.current = event.touches
       
       if (event.touches.length > 1) {
+        console.log('more buttons')
         pinch.current = event.touches
         shift.current = true
       }
     }
     
     function onTouchEnd(): void {
+      
+      console.log('test')
       canvas?.removeEventListener('touchend',    onTouchEnd)
       canvas?.removeEventListener('touchcancel', onTouchEnd)
       canvas?.removeEventListener('touchmove',   onTouchMove)
@@ -61,6 +64,7 @@ export function useTouchCameraControls(args: Args): void {
       const yDelta = (lastTouch.clientY - firstTouch.clientY) * EVENT_SENSITIVITY
       
       if (shift.current) {
+        console.log('update')
         const firstTouchesDistance = Math.hypot(
           touches.current![0].pageX - touches.current![1].pageX,
           touches.current![0].pageY - touches.current![1].pageY)
@@ -72,6 +76,7 @@ export function useTouchCameraControls(args: Args): void {
           const delta = (firstTouchesDistance - lastTouchesDistance) * PINCH_SENSITIVITY
           cameraDispatch({ type: 'update', dolly: delta } )
         } else {
+          console.log('track!')
           cameraDispatch({ type: 'update', track: { x: xDelta * PINCH_SENSITIVITY, y: -yDelta * PINCH_SENSITIVITY } })
         }
       } else {
