@@ -9,7 +9,7 @@ vec3 calculateLambertShading(in ShadingCommon common, in Light light) {
   float adjustedSpecularIntensity = max(1.0, SPECULAR_MAX - light.alpha);
   float diffuseShade = toLightNormal;
   float specularShade = pow(viewAngleNormal, adjustedSpecularIntensity);
-  float fresnelShade = max(0.0, 0.65 - viewAngleNormal);
+  float fresnelShade = max(0.0, 0.25 - viewAngleNormal);
   
   vec3 ambient = light.ambient;
   vec3 diffuse = light.diffuse * diffuseShade;
