@@ -9,10 +9,12 @@ vec4 raymarch(vec3 origin, vec3 direction) {
 	for (int i = 0; i < 64; i++) {
 		vec3 ray = origin + totalDistance * direction;
 		vec4 closestElement = sdScene(ray);
-		totalDistance += closestElement.a;
-    color = closestElement.rgb;
+    float colorSum = closestElement.r + closestElement.g + closestElement.b;
     
-		if (abs(closestElement.a) <= 0.001) break;
+    totalDistance += closestElement.a;
+    color = closestElement.rgb;
+
+		if (abs(closestElement.a) <= 0.0000001) break;
     if (abs(totalDistance) > 50.0 || abs(closestElement.a) > 50.0) break;
 	}
   
@@ -26,7 +28,7 @@ vec4 calculateSceneColor(in vec3 origin, in vec3 direction, in Light light) {
   vec3 lightPosition = light.position;
   vec3 normal = calculateNormals(position);
   
-  Light newLight = Light(origin, closestElement.rgb, vec3(0.8), vec3(1), vec3(1), 20.0);
+  Light newLight = Light(origin, vec3(0.2), closestElement.rgb, vec3(1), vec3(1), 20.0);
   ShadingCommon shadingCommon = ShadingCommon(position, normal, origin);
   Scene scene = Scene(newLight, shadingCommon);
   
@@ -34,9 +36,11 @@ vec4 calculateSceneColor(in vec3 origin, in vec3 direction, in Light light) {
   float shadow = calculateShadows(position, lightPosition, 0.01, 1.0, 0.1);
   float occlusion = calculateAO(position, normal);
   
-  vec3 color = lightColor * shadow * occlusion;
-  color = closestElement.rgb;
+  vec3 color = lightColor * shadow * occlusion;  
+  float colorSum = closestElement.r + closestElement.g + closestElement.b;
+  
   float alpha = distance >= 50.0 ? 0.0 : 1.0;
+  alpha = colorSum < 0.1 ? 0.0 : alpha;
   color = distance >= 50.0 ? vec3(0): color;
   
   return vec4(color, alpha);
@@ -46,7 +50,7 @@ void main() {
   vec2 uv = vec2(vPos.x * uAspectRatio, vPos.y);
   // Initialization
   vec3 origin = vec3(0, 0, -3);
-  vec3 direction = normalize(vec3(uv * 0.25, 1.0));
+  vec3 direction = normalize(vec3(uv * 0.33, 1.0));
   
   origin.xy -= uTrack;
   direction.xy -= uTrack;
