@@ -73,7 +73,7 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
   // Temp!
   function loadTexture(): void {
     const image = new Image()
-    image.src = "/marching-photos/test.jpg"
+    image.src = "/marching-photos/cat2.jpg"
     image.onload = function() {
       const texture = gl.createTexture()
       gl.bindTexture(gl.TEXTURE_2D, texture)

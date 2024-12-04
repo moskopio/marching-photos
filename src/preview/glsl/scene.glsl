@@ -1,16 +1,17 @@
-float sampleSphere(in vec3 ray, in vec2 st, in vec2 size) {
+vec4 sampleSphere(in vec3 ray, in vec2 st, in vec2 size) {
   vec4 texture = texture(uImage, st);
-  float averange = 1.0 - (texture.x + texture.y + texture.z) / 3.0;
+  float averange = (texture.x + texture.y + texture.z) / 3.0;
   float scale = min(size.x, size.y) * 0.5;
+  float sphereSize = averange * scale;
   
-  float dotSize = (st.x + st.y) * 0.5 * scale;
-  dotSize = averange * scale;
+  vec3 color = texture.rgb;
+  float distance = sdSphere(ray, vec3(0, 0, -averange * 0.1), sphereSize);
   
-  return sdSphere(ray, vec3(0, 0, 0), dotSize);
+  return vec4(color, distance);
 }
 
 
-float repeated(in vec3 ray, in vec2 samples) {
+vec4 repeated(in vec3 ray, in vec2 samples) {
   vec2 size = 2.0 / samples;
   vec2 constrains = samples / 2.0;
   
@@ -27,7 +28,12 @@ float repeated(in vec3 ray, in vec2 samples) {
   return sampleSphere(repetition, st, size);
 }
 
-float sdScene(vec3 ray) {
+vec4 sdScene(vec3 ray) {
   float ground = ray.y + 2.0;
-  return min(ground, repeated(ray, vec2(40.0, 40.0)));
+
+  // vec2 samples = vec2(floor(40.0 + 25.0 * sin(uTime * 0.0001)) * 2.0);
+  // vec2 samples = vec2(40.0 + 25.0 * sin(uTime * 0.0001));
+  vec2 samples = vec2(100.0);
+  
+  return repeated(ray, samples);
 }

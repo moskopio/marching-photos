@@ -3,7 +3,8 @@ float calculateAO(in vec3 position, in vec3 normal) {
   float sca = 1.0;
   for( float i= 0.0; i < 5.0; i++) {
     float h = 0.01 + 0.12 * i / 4.0;
-    float d = sdScene(position + h * normal);
+    vec4 closestElement = sdScene(position + h * normal);
+    float d = closestElement.a;
     occ += (h - d) * sca;
     sca *= 0.95;
     if( occ > 0.35 ) break;
