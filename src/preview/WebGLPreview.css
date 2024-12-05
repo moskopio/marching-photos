@@ -5,7 +5,5 @@
   left: 0;
   top: 0;
   z-index: -10;
-  
-  background-color: var(--bg-color);
-  background: radial-gradient(#3e414d, black);
+  background: radial-gradient(#333, black);
 }
