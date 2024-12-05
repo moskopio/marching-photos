@@ -3,25 +3,9 @@
   flex-direction: row;
   width: 250px;
   align-self: baseline;
-  border: var(--elements-border) var(--highlight-color) solid;
-  outline: var(--elements-border) var(--shadow-color) solid;
-  box-shadow: inset 0px 0px 0px 1px var(--shadow-color);
-  border-radius: var(--elements-radius);
-  
+  border-radius: 15px;
+  box-shadow: 1px 1px 1px inset var(--highlight-color), -1px -1px 1px inset var(--shadow-color), 3px 3px 5px var(--shadow-color);
   background-color: var(--bg-color);
-  background-image:
-    linear-gradient(var(--line-color-3) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-color-3) 1px, transparent 1px);
-  background-position: -1px -1px, -1px -1px;
-  background-size: 10px 10px, 10px 10px;
-}
-
-.panel-side-bar {
-  background: #a6b4b6;
-  box-shadow: inset 0px 0px 0px 1px var(--shadow-color);
-  border-right: var(--highlight-color) solid 1px;
-  cursor: pointer;
-  width: 6px;
 }
 
 .panel-wrapper {
@@ -37,28 +21,12 @@
   display: flex;
   flex-direction: row;
   font-family: monospace;
-  font-size: 14px;
-  gap: 5px;
+  font-size: 20px;
   justify-content: space-between;
   text-align: left;
   text-shadow: var(--text-shadow);
   user-select: none;
-}
-
-.panel-top-bar::before {
-  margin-left: 10px;
-}
-
-.panel-top-bar::after {
-  margin-right: 10px;
-}
-
-.panel-top-bar::before, .panel-top-bar::after {
-  flex-grow: 1;
-  box-sizing: border-box;
-  border: 1px var(--highlight-color) solid;
-  box-shadow: inset 0px 0px 0px 1px var(--shadow-color);
-  content: "";
+  padding: 5px;
 }
 
 .panel-content {
@@ -67,4 +35,13 @@
   gap: 5px;
   padding: 5px;
   width: 100%;
+}
+
+.panel-section {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  box-shadow: 1px 1px 1px inset var(--highlight-color), -1px -1px 1px inset var(--shadow-color), 1px 1px 2px var(--shadow-color);
+  border-radius: 10px;
+  gap: 2px;
 }

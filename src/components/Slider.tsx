@@ -30,9 +30,10 @@ export function Slider(props: Props): ReactElement {
   
   return (
     <div className="slider" ref={sliderRef}>
-      <div className="slider-handle" style={handleStyle} />
-      <div className="slider-track" />
-      <div className="slider-label">{label}</div>
+      <div className="slider-track">
+        <div className="slider-handle" style={handleStyle} />
+        <div className="slider-label">{label}</div>
+      </div>
     </div>
   )
 }

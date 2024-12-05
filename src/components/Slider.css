@@ -4,24 +4,23 @@
 
 .slider-track {
   height: 12px;
-  border: var(--elements-border) var(--highlight-color) solid;
-  outline: var(--elements-border) var(--shadow-color) solid;
-  box-shadow: inset 0px 0px 0px 1px var(--shadow-color);
-  border-radius: 15px;
-  margin-top: -14px;
+  box-shadow: 1px 1px 2px inset var(--shadow-color), -1px -1px 2px inset var(--shadow-color);
+  border-radius: 5px;
+  background-color: #333;
+  overflow: hidden;
 }
 
 .slider-handle {
-  border-right: 2px solid white;
   box-sizing: border-box;
   box-shadow: inset 0px 0px 0px 1px var(--shadow-color);
   height: 12px;
-  margin-top: 2px;
+  overflow: visible;
+  border-radius: 5px;
 }
 
 .slider-label {
-  margin-top: -14px;
-  font-size: 10px;
+  margin-top: -12px;
+  font-size: 9px;
   text-align: center;
   pointer-events: none;
   user-select: none;

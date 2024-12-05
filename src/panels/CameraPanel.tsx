@@ -1,4 +1,4 @@
-import { Fragment, ReactElement, useCallback, useContext } from "react"
+import { ReactElement, useCallback, useContext } from "react"
 import { Divider } from "src/components/Divider"
 import { Panel } from "src/components/Panel"
 import { Slider } from "src/components/Slider"
@@ -9,7 +9,7 @@ export function CameraPanel(): ReactElement {
   return (
     <Panel label="Camera" icon="camera" color={PASTEL_COLORS.pancho}>
       <Rotation />
-      <Position />
+    <Position />
     </Panel>
   )
 }
@@ -27,7 +27,7 @@ function Rotation(): ReactElement {
   }, [cameraDispatch])
   
   return (
-    <Fragment>
+    <div className="panel-section">
       <Divider label="Rotation" />
       <Slider
         label={`Theta: ${Math.floor(camera.rotation.theta)}°`}
@@ -47,7 +47,7 @@ function Rotation(): ReactElement {
         defaultValue={0}
         color={pallette.getNextColor()}
       />
-    </Fragment>
+    </div>
   )
 }
 
@@ -68,7 +68,7 @@ function Position(): ReactElement {
   }, [cameraDispatch])
   
   return (
-    <Fragment>
+    <div className="panel-section">
       <Divider label="Position" />
       <Slider
         label={`Track X: ${camera.track.x.toFixed(2)}`} 
@@ -97,6 +97,6 @@ function Position(): ReactElement {
         value={camera.dolly}
         color={pallette.getNextColor()}
       />
-    </Fragment>
+    </div>
   )
 }

@@ -9,7 +9,7 @@ export function useWebGLContext(props: Props): WebGLRenderingContext | null {
   const [context, setContext] = useState<WebGLRenderingContext | null>(null)
   
   useEffect(() => {
-    const gl = canvasRef.current?.getContext("webgl2", {antialias: true, depth: true })
+    const gl = canvasRef.current?.getContext("webgl2", {antialias: true })
     
     
     gl && setContext(gl)

@@ -1,21 +1,23 @@
+import { DeepPartial, Rotation, Track } from "src/types"
 import { flipConstrain } from "src/utils/util"
-import { DeepPartial, Rotation, Track, Vec3 } from "src/types"
 
-import { deepSet, deepUpdate } from "src/utils/merge"
 import { limit } from "src/math/utls"
+import { deepSet, deepUpdate } from "src/utils/merge"
 
-export interface Camera { 
+export interface Camera {
   aspectRatio: number
-  target:      Vec3
   rotation:    Rotation
   dolly:       number
   track:       Track
 }
 
 export function createDefaultCamera(): Camera {
+  const dpr = window.devicePixelRatio
+  const displayWidth  = Math.round(window.innerWidth * dpr)
+  const displayHeight = Math.round(window.innerHeight * dpr)
+  
   return {
-    aspectRatio: 3 / 2,
-    target:      [0, 0, 0] as Vec3,
+    aspectRatio: displayWidth / displayHeight,
     rotation:    { theta: 0, phi: 0 },
     dolly:       0,
     track:       { x: 0, y : 0 }
@@ -48,10 +50,10 @@ function constrain(state: Camera): Camera {
   state.rotation.phi = flipConstrain(state.rotation.phi, -180, 180)
   state.rotation.theta = flipConstrain(state.rotation.theta, -180, 180)
   
-  state.track.x = limit(state.track.x, -10, 10)
-  state.track.y = limit(state.track.y, -10, 10)
+  state.track.x = limit(state.track.x, -1, 1)
+  state.track.y = limit(state.track.y, -1, 1)
   
-  state.dolly = limit(state.dolly, 0.0, 1)
+  state.dolly = limit(state.dolly, -1, 1)
   
   return state
 }
