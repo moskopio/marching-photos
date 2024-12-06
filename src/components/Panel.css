@@ -2,7 +2,7 @@
   outline: 2px solid var(--shadow-color);
   display: flex;
   flex-direction: row;
-  width: 250px;
+  width: 200px;
   align-self: baseline;
   border-radius: 10px;
   box-shadow: 1px 1px 1px inset var(--dim-highlight-color), -1px -1px 1px inset var(--shadow-color), 3px 3px 5px var(--shadow-color);
@@ -37,7 +37,7 @@
   text-align: left;
   text-overflow: ellipsis;
   overflow: hidden;
-  max-width: 200px;
+  max-width: 155px;
   white-space: nowrap;
 }
 

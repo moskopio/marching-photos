@@ -6,7 +6,6 @@ export interface Settings {
   push:       number
   shape:      Shape
   coloring:   Coloring
-  solidColor: [number, number, number]
 }
 
 enum Shape {
@@ -17,9 +16,11 @@ enum Shape {
 }
 
 enum Coloring {
-  Image = 0,
-  BW    = 1,
-  Solid = 2,
+  Shaded    = 0,
+  Simple    = 1,
+  Grayscale = 2,
+  White     = 3,
+  Black     = 4,
 }
 
 export function createDefaultSettings(): Settings {
@@ -27,8 +28,7 @@ export function createDefaultSettings(): Settings {
     samples:    [50, 50],
     push:       0.3,
     shape:      Shape.Sphere,
-    coloring:   Coloring.Image,
-    solidColor: [1, 1, 1],
+    coloring:   Coloring.Shaded,
   }
 }
 

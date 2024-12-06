@@ -1,5 +1,5 @@
 #define STEP_BIAS 0.15
-#define AA 2.0
+#define AA 1.0
 
 vec4 raymarch(vec3 origin, vec3 direction) {
 	float totalDistance = 0.0;
@@ -26,11 +26,16 @@ vec4 calculateSceneColor(in vec3 origin, in vec3 direction) {
   vec3 position = origin + distance * direction;
   vec3 normal = calculateNormals(position);
   
-  Scene scene = Scene(origin, origin, normal, closestElement.rgb);
-  vec3 lightColor = calculateShading(scene);
-  
-  vec3 color = lightColor;
   float colorSum = closestElement.r + closestElement.g + closestElement.b;
+  vec3 elementColor = closestElement.rgb;
+  elementColor = mix(elementColor, vec3(colorSum / 3.0), float(uColoring == 2.0));
+  elementColor = mix(elementColor, vec3(1), float(uColoring == 3.0));
+  elementColor = mix(elementColor, vec3(0), float(uColoring == 4.0));
+  
+  Scene scene = Scene(origin, origin, normal, elementColor);
+  vec3 lightColor = calculateShading(scene);
+  vec3 color = lightColor;
+  color = mix(color, closestElement.rgb, float(uColoring == 1.0));
   
   float alpha = distance >= 50.0 ? 0.0 : 1.0;
   alpha = colorSum < 0.1 ? 0.0 : alpha;

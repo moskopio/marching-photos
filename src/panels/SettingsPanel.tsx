@@ -1,6 +1,7 @@
 import { ReactElement, useCallback, useContext } from "react"
 import { Divider } from "src/components/Divider"
 import { Panel } from "src/components/Panel"
+import { Radio } from "src/components/Radio"
 import { Slider } from "src/components/Slider"
 import { AppContext } from "src/state/context"
 import { createPallette } from "src/utils/color"
@@ -11,6 +12,7 @@ export function SettingsPanel(): ReactElement {
     <Position />
     <Samples />
     <Shape />
+    <Coloring />
     </Panel>
   )
 }
@@ -104,11 +106,46 @@ function Samples(): ReactElement {
 }
 
 function Shape(): ReactElement {
+  const { settings, settingsDispatch } = useContext(AppContext)
+  
+  const setShape = useCallback((val: number) => {
+    settingsDispatch({ type: "set", shape: val })
+  }, [settingsDispatch])
+  
+  const options = {
+    0: 'Sphere',
+    1: 'Torus',
+    2: 'Octahedron',
+    3: 'Box'
+  }
   
   return (
     <div className="panel-section">
       <Divider label="Shape" />
+      <Radio options={options} onChange={setShape} value={settings.shape} />
     </div>
   )
+}
+
+function Coloring(): ReactElement {
+  const { settings, settingsDispatch } = useContext(AppContext)
   
+  const setColoring = useCallback((val: number) => {
+    settingsDispatch({ type: "set", coloring: val })
+  }, [settingsDispatch])
+  
+  const options = {
+    0: 'Shaded',
+    1: 'Simple',
+    2: 'Grayscale',
+    3: 'White',
+    4: 'Black'
+  }
+  
+  return (
+    <div className="panel-section">
+      <Divider label="Coloring" />
+      <Radio options={options} onChange={setColoring} value={settings.coloring} />
+    </div>
+  )
 }

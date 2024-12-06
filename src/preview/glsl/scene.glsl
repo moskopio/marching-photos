@@ -4,7 +4,6 @@ float random(in float seed) {
 
 vec4 sampleSphere(in vec3 ray, in vec2 st, in vec2 size) {
   vec4 texture = texture(uImage, st);
-  vec3 color = texture.rgb;
   float averange = (texture.x + texture.y + texture.z) / 3.0;
   float scale = min(size.x, size.y) * 0.5;
   float sphereSize = 0.0001 + averange * scale;
@@ -16,7 +15,13 @@ vec4 sampleSphere(in vec3 ray, in vec2 st, in vec2 size) {
   float octa = sdOctahedron(ray, vec3(0,0,-push), sphereSize);
   float box = sdBox(ray, vec3(0,0, -push), vec3(sphereSize));
   
-  float distance = octa;
+  float distance = mix(sphere, torus, float(uShape == 1.0));
+  distance = mix(distance, octa, float(uShape == 2.0));
+  distance = mix(distance, box,  float(uShape == 3.0));
+  
+  vec3 color = mix(texture.rgb, vec3(averange), float(uColoring == 2.0));
+  color = mix(color, vec3(1), float(uColoring == 3.0));
+  
   return vec4(color, distance);
 }
 

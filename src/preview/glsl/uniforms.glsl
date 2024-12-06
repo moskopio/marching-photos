@@ -15,6 +15,8 @@ uniform float uPush;
 
 uniform sampler2D uImage;
 uniform float uImgAspectRatio;
+uniform float uShape;
+uniform float uColoring;
 
 
 struct Scene {
