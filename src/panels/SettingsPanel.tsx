@@ -5,10 +5,10 @@ import { Slider } from "src/components/Slider"
 import { AppContext } from "src/state/context"
 import { createPallette, PASTEL_COLORS } from "src/utils/color"
 
-export function CameraPanel(): ReactElement {
+export function SettingsPanel(): ReactElement {
   return (
-    <Panel label="Camera" icon="camera" color={PASTEL_COLORS.pancho}>
-      <Rotation />
+    <Panel label="Settings" icon="settings" color={PASTEL_COLORS.pancho}>
+    <Rotation />
     <Position />
     </Panel>
   )

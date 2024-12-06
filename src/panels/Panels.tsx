@@ -1,7 +1,8 @@
 import { ReactElement, useEffect, useMemo, useRef, useState } from "react"
 import { constrain } from "src/utils/util"
-import { CameraPanel } from "./CameraPanel"
+import { SettingsPanel } from "./SettingsPanel"
 import "./Panels.css"
+import { ImagePanel } from "src/panels/ImagePanel"
 
 const MARGIN = 8
 const SCROLL_SPEED = 20
@@ -47,7 +48,8 @@ export function Panels(): ReactElement {
   
   return (
     <div className="panels" ref={panelsRef} style={style}>
-      <CameraPanel />
+      <ImagePanel />
+      <SettingsPanel />
     </div>
   )
 }

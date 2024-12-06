@@ -36,9 +36,8 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     0.0,  1.0,
     1.0,  0.0,
     1.0,  1.0])
-    
-  loadTexture()
-  return { cleanup, draw, updateCamera }
+  
+  return { cleanup, draw, updateCamera, updateImage }
   
   function cleanup(): void {
     Object.values(attributes).forEach(a => gl.deleteBuffer(a.b))
@@ -70,10 +69,7 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     updateUniforms({ gl, uniforms, values })
   }
   
-  // Temp!
-  function loadTexture(): void {
-    const image = new Image()
-    image.src = "/marching-photos/cat2.jpg"
+  function updateImage(image: HTMLImageElement): void {
     image.onload = function() {
       const texture = gl.createTexture()
       gl.bindTexture(gl.TEXTURE_2D, texture)

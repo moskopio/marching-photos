@@ -4,7 +4,7 @@
   cursor: pointer;
   background-color: var(--bg-color);
   box-shadow: 1px 1px 2px inset var(--highlight-color), 1px 1px 3px var(--shadow-color);
-  border-radius: 5px;
+  border-radius: 10px;
   background-repeat:no-repeat;
   background-position: 4px 4px;
 }

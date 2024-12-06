@@ -1,6 +1,5 @@
 import { ReactElement, useCallback, useState } from "react"
-import { PASTEL_COLORS } from "src/utils/color"
-import { IconCamera, IconCross, IconFile, IconInfo, IconLight, IconSettings } from "./Icon"
+import { IconCamera, IconFile, IconInfo, IconLight, IconSettings } from "./Icon"
 import "./Panel.css"
 
 interface Props {
@@ -29,7 +28,10 @@ function ExtendedPanel(props: ClickableProps): ReactElement {
   return (
     <div className="panel">
       <div className="panel-content">
-        <div className="panel-top-bar" onClick={onClick}>{label}<IconCross onClick={onClick}/></div>
+        <div className="panel-bar" onClick={onClick}>
+          <div className="panel-label">{label}</div>
+          <div className="panel-close" onClick={onClick}/>
+        </div>
         {children}
       </div>
     </div>

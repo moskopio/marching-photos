@@ -9,7 +9,7 @@ interface Props {
 
 export function useRenderScene(props: Props): void {
   const { gl } = props
-  const { camera } = useContext(AppContext)
+  const { camera, image } = useContext(AppContext)
   const requestId = useRef<number>(-1)
   const program = useRef<Program | null>(null)
 
@@ -24,7 +24,10 @@ export function useRenderScene(props: Props): void {
     program.current?.updateCamera?.(camera)
   }, [camera, program, gl])
   
-
+  useEffect(() => {
+    image.image && program.current?.updateImage?.(image.image)
+  }, [gl, image])
+  
   useEffect(() => {
     const time = Date.now()
     draw(time)

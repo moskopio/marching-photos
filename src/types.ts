@@ -16,9 +16,10 @@ export type DeepPartial<T> = {
 export type ViewMatrices = Dict<Matrix4 | Vec3>
 
 export interface Program {
-  cleanup:       () => void
-  draw:          (time: number) => void
-  updateCamera?: (views: Camera) => void
+  cleanup:      () => void
+  draw:         (time: number) => void
+  updateCamera: (views: Camera) => void
+  updateImage:  (image: HTMLImageElement) => void
 }
 
 export type Resolution = [width: number, height: number]
