@@ -4,9 +4,9 @@ interface Props {
   canvasRef: MutableRefObject<HTMLCanvasElement | null>
 }
 
-export function useWebGLContext(props: Props): WebGLRenderingContext | null {
+export function useWebGLContext(props: Props): WebGL2RenderingContext | null {
   const { canvasRef } = props 
-  const [context, setContext] = useState<WebGLRenderingContext | null>(null)
+  const [context, setContext] = useState<WebGL2RenderingContext | null>(null)
   
   useEffect(() => {
     const gl = canvasRef.current?.getContext("webgl2", {antialias: true })

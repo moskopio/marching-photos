@@ -10,40 +10,28 @@ type AttributeValue = Dict<Float32Array>
 
 interface UpdateArgs {
   attributes: Attributes
-  gl:         WebGLRenderingContext
+  gl:         WebGL2RenderingContext
   values:     AttributeValue
 }
 
-export function updateAttributes(args: UpdateArgs): void {
+export function updateAttributes(args: UpdateArgs): WebGLVertexArrayObject | null {
   const { attributes, gl, values } = args
   const attributeNames = Object.keys(values)
+  
+  const vao = gl.createVertexArray()
+  gl.bindVertexArray(vao)
   
   attributeNames.forEach(name => {
     const attribute = attributes[name]
     const value = values[name]
     
     if (attribute && value) {
+      gl.enableVertexAttribArray(attribute.p)
       gl.bindBuffer(gl.ARRAY_BUFFER, attribute.b)
+      gl.vertexAttribPointer(attribute.p, attribute.s, gl.FLOAT, false, 0, 0)
       gl.bufferData(gl.ARRAY_BUFFER, value, gl.STATIC_DRAW)
     }
   })
-}
-
-interface SetupArgs {
-  attributes: Attributes
-  gl:         WebGLRenderingContext
-}
-
-export function setupAttributes(args: SetupArgs): void {
-  const { attributes, gl } = args
-  const attributeNames = Object.keys(attributes)
   
-  attributeNames.forEach(name => {
-    const attribute = attributes[name]
-    if (attribute) {
-      gl.bindBuffer(gl.ARRAY_BUFFER, attribute.b)
-      gl.vertexAttribPointer(attribute.p, attribute.s, gl.FLOAT, false, 0, 0)
-      gl.enableVertexAttribArray(attribute.p)
-    }
-  })
+  return vao
 }

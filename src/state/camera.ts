@@ -46,7 +46,7 @@ function constrain(state: Camera): Camera {
   state.rotation.phi = flipConstrain(state.rotation.phi, -180, 180)
   state.rotation.theta = flipConstrain(state.rotation.theta, -180, 180)
   
-  state.dolly = limit(state.dolly, -1, 1)
+  state.dolly = limit(state.dolly, 0, 0.6)
   
   return state
 }

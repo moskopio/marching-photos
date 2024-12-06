@@ -5,21 +5,23 @@ import { createShaderSource } from 'src/preview/glsl/utils'
 import { Camera } from 'src/state/camera'
 import { Settings } from 'src/state/settings'
 import { Program } from 'src/types'
-import { setupAttributes, updateAttributes } from 'src/webgl/attributes'
+import { updateAttributes } from 'src/webgl/attributes'
 import { createShaderProgram } from 'src/webgl/program'
 import { getUniforms, prepareValues, updateUniforms } from 'src/webgl/uniforms'
 
-export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null {
+export function createRaymarchProgram(gl: WebGL2RenderingContext): Program | null {
   
   const fragmentSourceComposed = createShaderSource(fragmentShaderSource)
   const program = createShaderProgram(gl, vertexShaderSource, fragmentSourceComposed)
   if (!program) {
-    console.error('Failed to create a WebGL Wireframe Program')
+    console.error('Failed to create a WebGL2 Program')
     return null
   }
+  
   const attributes = {
     position: { p: gl.getAttribLocation(program, 'aPosition'), s: 2, b: gl.createBuffer()! },
-    texture:  { p: gl.getAttribLocation(program, 'aTexCoord'), s: 2, b: gl.createBuffer()! },
+    
+    
   }
   const uniforms = getUniforms(gl, program)
   const position = new Float32Array([
@@ -28,15 +30,9 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     0.0,  1.0,
     0.0,  1.0,
     1.0,  0.0,
-    1.0,  1.0])
-    
-  const texture = new Float32Array([
-    0.0,  0.0,
-    1.0,  0.0,
-    0.0,  1.0,
-    0.0,  1.0,
-    1.0,  0.0,
-    1.0,  1.0])
+    1.0,  1.0
+   ])
+   updateAttributes({ gl, attributes, values: { position } })
   
   return { cleanup, draw, updateCamera, updateImage, updateSettings }
   
@@ -47,9 +43,6 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
   
   function draw(time: number): void {
     gl.useProgram(program!)
-    setupAttributes({ gl, attributes })
-
-    updateAttributes({ gl, attributes, values: { position, texture } })
     updateUniforms({ gl, uniforms, values: { time: [time] } })
     gl.drawArrays(gl.TRIANGLES, 0, 6)
   }
@@ -72,7 +65,6 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     image.onload = function() {
       const texture = gl.createTexture()
       gl.bindTexture(gl.TEXTURE_2D, texture)
-      console.log('aspect ratio', image.width / image.height)
       
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)

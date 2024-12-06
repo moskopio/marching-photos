@@ -4,7 +4,7 @@ import { AppContext } from "src/state/context"
 import { Program } from "src/types"
 
 interface Props {
-  gl: WebGLRenderingContext | null
+  gl: WebGL2RenderingContext | null
 }
 
 export function useRenderScene(props: Props): void {

@@ -10,6 +10,7 @@ export function SettingsPanel(): ReactElement {
     <Panel label="Settings" icon="settings">
     <Position />
     <Samples />
+    <Shape />
     </Panel>
   )
 }
@@ -54,7 +55,7 @@ function Position(): ReactElement {
       <Slider
         label={`Dolly ${camera.dolly.toFixed(2)}`} 
         min={0}
-        max={1}
+        max={0.6}
         onChange={setDolly}
         defaultValue={0}
         value={camera.dolly}
@@ -66,7 +67,7 @@ function Position(): ReactElement {
 
 function Samples(): ReactElement {
   const { settings, settingsDispatch } = useContext(AppContext)
-  const pallette = createPallette(2)
+  const pallette = createPallette(3)
   
   const setXSamples = useCallback((val: number) => {
     settingsDispatch({ type: "set", samples: [val, val] })
@@ -83,7 +84,7 @@ function Samples(): ReactElement {
       <Slider
         label={`Samples: ${Math.floor(settings.samples[0])}`}
         min={6}
-        max={100}
+        max={256}
         onChange={setXSamples}
         value={settings.samples[0]}
         defaultValue={100}
@@ -100,4 +101,14 @@ function Samples(): ReactElement {
       />
     </div>
   )
+}
+
+function Shape(): ReactElement {
+  
+  return (
+    <div className="panel-section">
+      <Divider label="Shape" />
+    </div>
+  )
+  
 }

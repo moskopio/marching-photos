@@ -1,4 +1,4 @@
-export function createShaderProgram(gl: WebGLRenderingContext, vertex: string, fragment: string): WebGLProgram | undefined {
+export function createShaderProgram(gl: WebGL2RenderingContext, vertex: string, fragment: string): WebGLProgram | undefined {
   const vertexShader = compileShader(gl, gl.VERTEX_SHADER, vertex)
 	const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, fragment)
   
@@ -21,7 +21,7 @@ export function createShaderProgram(gl: WebGLRenderingContext, vertex: string, f
   return program
 }
 
-function compileShader(gl: WebGLRenderingContext, type: number, source: string): WebGLShader | undefined {
+function compileShader(gl: WebGL2RenderingContext, type: number, source: string): WebGLShader | undefined {
 	const shader = gl.createShader(type)
   
   if (!shader) return undefined

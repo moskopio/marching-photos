@@ -8,7 +8,7 @@ interface Uniform {
 }
 type Uniforms = Dict<Uniform>
 
-export function getUniforms(gl: WebGLRenderingContext, program: WebGLProgram): Uniforms {
+export function getUniforms(gl: WebGL2RenderingContext, program: WebGLProgram): Uniforms {
   const uniforms: Uniforms = {}
   
   const uniformsCount = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS)
@@ -27,7 +27,7 @@ export function getUniforms(gl: WebGLRenderingContext, program: WebGLProgram): U
 }
 
 interface UpdateArgs {
-  gl:       WebGLRenderingContext
+  gl:       WebGL2RenderingContext
   uniforms: Uniforms
   values:   Values
 }
@@ -67,7 +67,7 @@ export function updateUniforms(args: UpdateArgs): void {
 }
 
 interface UpdateTextureArgs {
-  gl:       WebGLRenderingContext
+  gl:       WebGL2RenderingContext
   uniforms: Uniforms
   values:   Dict<WebGLTexture>
 }
