@@ -1,5 +1,4 @@
 import { Dict } from "src/types"
-import { Color, vec3ToShaderColor } from "src/utils/color"
 import { isObject } from "src/utils/util"
 
 interface Uniform {
@@ -108,8 +107,6 @@ export function prepareValues(values: Dict<number | number[] | boolean>): Values
       prepared[name] = [value] as number[]
     } else if (typeof value == 'boolean') {
       prepared[name] = [value ? 1 : 0]
-    } else if (name.toLocaleLowerCase().includes('color')) {
-      prepared[name] = vec3ToShaderColor(value as Color)
     } else {
       prepared[name] = value as number[]
     }
