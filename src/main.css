@@ -1,5 +1,6 @@
 :root {
   --highlight-color: #FFF;
+  --dim-highlight-color: #FFF9;
   --shadow-color:    #000;
   --bg-color:        #2A2c3390;
   --elements-border: 2px;

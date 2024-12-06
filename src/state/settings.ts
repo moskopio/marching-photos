@@ -24,7 +24,7 @@ enum Coloring {
 
 export function createDefaultSettings(): Settings {
   return {
-    samples:    [100, 100],
+    samples:    [50, 50],
     push:       0.3,
     shape:      Shape.Sphere,
     coloring:   Coloring.Image,
@@ -53,6 +53,16 @@ function reduce(state: Settings, action: SettingsAction): Settings {
 }
 
 function constrain(state: Settings): Settings {
-  state.push = state.push < 0.5 ? state.push : 0.5  
+  state.push = state.push < 0.5 ? state.push : 0.5
+  state.samples[0] = Math.floor(state.samples[0])
+  state.samples[0] = state.samples[0] % 2 
+    ? state.samples[0] - 1 
+    : state.samples[0]
+  
+  state.samples[1] = Math.floor(state.samples[1])
+  state.samples[1] = state.samples[1] % 2 
+    ? state.samples[1] - 1 
+    : state.samples[1]
+    
   return state
 }

@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useContext, useRef, useState } from "react"
+import { ReactElement, useCallback, useContext } from "react"
 import { Divider } from "src/components/Divider"
 import { Panel } from "src/components/Panel"
 import { Slider } from "src/components/Slider"
@@ -8,14 +8,13 @@ import { createPallette } from "src/utils/color"
 export function SettingsPanel(): ReactElement {
   return (
     <Panel label="Settings" icon="settings">
-    <Rotation />
-    <Samples />
     <Position />
+    <Samples />
     </Panel>
   )
 }
 
-function Rotation(): ReactElement {
+function Position(): ReactElement {
   const { camera, cameraDispatch } = useContext(AppContext)
   const pallette = createPallette(0)
   
@@ -27,9 +26,13 @@ function Rotation(): ReactElement {
     cameraDispatch({ type: "set", rotation: { phi: a }})
   }, [cameraDispatch])
   
+  const setDolly = useCallback((dolly: number) => {
+    cameraDispatch({ type: "set", dolly })
+  }, [cameraDispatch])
+  
   return (
     <div className="panel-section">
-      <Divider label="Rotation" />
+      <Divider label="Position" />
       <Slider
         label={`Theta: ${Math.floor(camera.rotation.theta)}°`}
         min={-180}
@@ -48,6 +51,15 @@ function Rotation(): ReactElement {
         defaultValue={0}
         color={pallette.getNextColor()}
       />
+      <Slider
+        label={`Dolly ${camera.dolly.toFixed(2)}`} 
+        min={0}
+        max={1}
+        onChange={setDolly}
+        defaultValue={0}
+        value={camera.dolly}
+        color={pallette.getNextColor()}
+      />
     </div>
   )
 }
@@ -55,20 +67,9 @@ function Rotation(): ReactElement {
 function Samples(): ReactElement {
   const { settings, settingsDispatch } = useContext(AppContext)
   const pallette = createPallette(2)
-  const samplesRef = useRef(settings.samples)
   
   const setXSamples = useCallback((val: number) => {
-    const samples = samplesRef.current
-    samples[0] = val
-    settingsDispatch({ type: "set", samples })
-    samplesRef.current = samples
-  }, [settingsDispatch])
-  
-  const setYSamples = useCallback((val: number) => {
-    const samples = samplesRef.current
-    samples[1] = val
-    settingsDispatch({ type: "set", samples })
-    samplesRef.current = samples
+    settingsDispatch({ type: "set", samples: [val, val] })
   }, [settingsDispatch])
   
   const setPush = useCallback((push: number) => {
@@ -80,20 +81,11 @@ function Samples(): ReactElement {
     <div className="panel-section">
       <Divider label="Samples" />
       <Slider
-        label={`X: ${Math.floor(settings.samples[0])}`}
+        label={`Samples: ${Math.floor(settings.samples[0])}`}
         min={6}
-        max={1000}
+        max={100}
         onChange={setXSamples}
         value={settings.samples[0]}
-        defaultValue={100}
-        color={pallette.getNextColor()}
-      />
-      <Slider
-        label={`Y: ${Math.floor(settings.samples[1])}`}
-        min={6}
-        max={1000}
-        onChange={setYSamples}
-        value={settings.samples[1]}
         defaultValue={100}
         color={pallette.getNextColor()}
       />
@@ -104,56 +96,6 @@ function Samples(): ReactElement {
         onChange={setPush}
         value={settings.push}
         defaultValue={0.3}
-        color={pallette.getNextColor()}
-      />
-    </div>
-  )
-}
-
-function Position(): ReactElement {
-  const { camera, cameraDispatch } = useContext(AppContext)
-  const pallette = createPallette(2)
-  
-  const updateXTrack = useCallback((v: number) => {
-    cameraDispatch({ type: "set", track: { x: v } })
-  }, [cameraDispatch])
-  
-  const updateYTrack = useCallback((v: number) => {
-    cameraDispatch({ type: "set", track: { y: v } })
-  }, [cameraDispatch])
-  
-  const setDolly = useCallback((dolly: number) => {
-    cameraDispatch({ type: "set", dolly })
-  }, [cameraDispatch])
-  
-  return (
-    <div className="panel-section">
-      <Divider label="Position" />
-      <Slider
-        label={`Track X: ${camera.track.x.toFixed(2)}`} 
-        min={-10}
-        max={10}
-        onChange={updateXTrack}
-        defaultValue={0}
-        value={camera.track.x}
-        color={pallette.getNextColor()}
-      />
-      <Slider
-        label={`Track Y: ${camera.track.y.toFixed(2)}`} 
-        min={-10}
-        max={10}
-        onChange={updateYTrack}
-        defaultValue={0}
-        value={camera.track.y}
-        color={pallette.getNextColor()}
-      />
-      <Slider
-        label={`Dolly ${camera.dolly.toFixed(2)}`} 
-        min={0}
-        max={1}
-        onChange={setDolly}
-        defaultValue={0}
-        value={camera.dolly}
         color={pallette.getNextColor()}
       />
     </div>

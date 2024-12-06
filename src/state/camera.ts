@@ -1,4 +1,4 @@
-import { DeepPartial, Rotation, Track } from "src/types"
+import { DeepPartial, Rotation } from "src/types"
 import { flipConstrain } from "src/utils/util"
 
 import { limit } from "src/math/utls"
@@ -8,7 +8,6 @@ export interface Camera {
   aspectRatio: number
   rotation:    Rotation
   dolly:       number
-  track:       Track
 }
 
 export function createDefaultCamera(): Camera {
@@ -20,7 +19,6 @@ export function createDefaultCamera(): Camera {
     aspectRatio: displayWidth / displayHeight,
     rotation:    { theta: 0, phi: 0 },
     dolly:       0,
-    track:       { x: 0, y : 0 }
   }
 }
 
@@ -47,9 +45,6 @@ function reduce(state: Camera, action: CameraAction): Camera {
 function constrain(state: Camera): Camera {
   state.rotation.phi = flipConstrain(state.rotation.phi, -180, 180)
   state.rotation.theta = flipConstrain(state.rotation.theta, -180, 180)
-  
-  state.track.x = limit(state.track.x, -1, 1)
-  state.track.y = limit(state.track.y, -1, 1)
   
   state.dolly = limit(state.dolly, -1, 1)
   

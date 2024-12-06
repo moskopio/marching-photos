@@ -50,10 +50,7 @@ void main() {
   vec2 uv = vec2(vPos.x * uAspectRatio, vPos.y);
   // Initialization
   vec3 origin = vec3(0, 0, -3);
-  vec3 direction = normalize(vec3(uv * 0.33, 1.0));
-  
-  origin.xy -= uTrack;
-  direction.xy -= uTrack;
+  vec3 direction = normalize(vec3(uv * 0.4, 1.0));
   direction.z -= uDolly;
   
   origin.yz *= rot2D(uRotation.x);

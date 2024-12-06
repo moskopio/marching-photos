@@ -6,15 +6,12 @@ const WHEEL_STEP = 0.01
 
 export function useMouseCameraControls(): void {
   const {cameraDispatch } = useContext(AppContext)
-  const shift = useRef(false)
   const position = useRef([0, 0])
   
   useEffect(() => {
     window.addEventListener('mousedown', onMouseDown)
     window.addEventListener('contextmenu', onContextMenu)
     window.addEventListener('wheel', onWheel, { passive: false })
-    window.addEventListener('keydown', onKeyDown)
-    window.addEventListener('keyup', onKeyUp)
     
     return () => {
       window.removeEventListener('mousedown', onMouseDown)
@@ -22,9 +19,6 @@ export function useMouseCameraControls(): void {
       window.removeEventListener('mouseup', onMouseUp)
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseleave', onMouseUp)
-      window.removeEventListener('keydown', onKeyDown)
-      window.removeEventListener('keyup', onKeyUp)
-      window.removeEventListener('contextmenu', onContextMenu)
     }
     
     function onContextMenu(event: MouseEvent): void {
@@ -35,10 +29,6 @@ export function useMouseCameraControls(): void {
     function onMouseDown(event: MouseEvent): void {
       event.preventDefault()
       event.stopImmediatePropagation()
-      if (event.type === 'contextmenu' || event.button === 2) {
-        shift.current = true
-      }
-      
       window.addEventListener('mouseup', onMouseUp)
       window.addEventListener('mouseleave', onMouseUp)
       window.addEventListener('mousemove', onMouseMove)
@@ -48,10 +38,6 @@ export function useMouseCameraControls(): void {
     function onMouseUp(event: MouseEvent): void {
       event.preventDefault()
       event.stopImmediatePropagation()
-      if (event.type === 'contextmenu' || event.button === 2) {
-        shift.current = false
-      }
-      
       window.removeEventListener('mouseup', onMouseUp)
       window.removeEventListener('mouseleave', onMouseUp)
       window.removeEventListener('mousemove', onMouseMove)
@@ -61,18 +47,6 @@ export function useMouseCameraControls(): void {
       event.preventDefault()
       event.stopImmediatePropagation()
       updateRotation(event)
-    }
-    
-    function onKeyDown(event: KeyboardEvent): void {
-      if (event.key === 'Shift') {
-        shift.current = true
-      }
-    }
-    
-    function onKeyUp(event: KeyboardEvent): void {
-      if (event.key === 'Shift') { 
-        shift.current = false
-      }
     }
     
     function onWheel(event: WheelEvent): void {
@@ -93,12 +67,7 @@ export function useMouseCameraControls(): void {
       const xDelta = (mouseX - prevX) * SENSITIVITY
       const yDelta = (mouseY - prevY) * SENSITIVITY
       
-      if (shift.current) {
-        // sensitivity should be based on distance!
-        cameraDispatch({ type: 'update', track: { x: xDelta / 100, y: -yDelta / 100 } })
-      } else {
-        cameraDispatch({ type: 'update', rotation: { theta: -yDelta, phi: xDelta } } )
-      }
+      cameraDispatch({ type: 'update', rotation: { theta: -yDelta, phi: xDelta } } )
       
       position.current = [event.clientX, event.clientY]
     }

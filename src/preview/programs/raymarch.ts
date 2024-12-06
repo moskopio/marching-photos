@@ -55,17 +55,15 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
   }
   
   function updateCamera(camera: Camera): void {
-    const { rotation, aspectRatio, track, dolly } = camera
+    const { rotation, aspectRatio, dolly } = camera
     const { theta, phi } = rotation
     
-    const { x, y } = track
     gl.useProgram(program!)
     
     const values = prepareValues({
       aspectRatio,
       dolly,
       rotation: [degToRad(theta), degToRad(phi)],
-      track:    [x, y],
     })
     updateUniforms({ gl, uniforms, values })
   }
@@ -74,6 +72,7 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     image.onload = function() {
       const texture = gl.createTexture()
       gl.bindTexture(gl.TEXTURE_2D, texture)
+      console.log('aspect ratio', image.width / image.height)
       
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)

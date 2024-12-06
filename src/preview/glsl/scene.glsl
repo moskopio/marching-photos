@@ -12,7 +12,6 @@ vec4 sampleSphere(in vec3 ray, in vec2 st, in vec2 size) {
   float octa = sdOctahedron(ray, vec3(0,0,-push), sphereSize);
   float box = sdBox(ray, vec3(0,0, -push), vec3(sphereSize));
   
-  // float distance = mix(torus, octa, 0.5 + sin(uTime / 500.0));
   float distance = sphere;
   return vec4(color, distance);
 }
@@ -27,9 +26,9 @@ vec4 repeated(in vec3 ray, in vec2 samples) {
   repetition.y = ray.y - size.y * clamp(round(ray.y / size.y), -constrains.y, constrains.y);
 
   vec2 st = ray.xy;
-  st.x /= uImgAspectRatio;
-  st.x = (st.x + 1.0) / 2.0;
+  st.x = (st.x + uImgAspectRatio) / 2.0;
   st.x = round((st.x) * samples.x) / samples.x;
+  st.x /= uImgAspectRatio;
   st.y = 1.0 - (st.y + 1.0) / 2.0;
   st.y = round((st.y) * samples.y) / samples.y;
   
@@ -37,6 +36,7 @@ vec4 repeated(in vec3 ray, in vec2 samples) {
 }
 
 vec4 sdScene(in vec3 ray) {
-  // vec2 samples = vec2(u, 400);
-  return repeated(ray, uSamples);
+  vec2 samples = uSamples;
+  samples.x /= uImgAspectRatio;
+  return repeated(ray, samples);
 }

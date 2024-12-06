@@ -5,8 +5,11 @@ import { AppContext } from "src/state/context"
 import "./ImagePanel.css"
 
 export function ImagePanel(): ReactElement {
+  const { image } = useContext(AppContext)
+  const label = image.name
+  
   return (
-    <Panel label="Image" icon="camera">
+    <Panel label={label} icon="camera">
     <ImagePreview />
     </Panel>
   )

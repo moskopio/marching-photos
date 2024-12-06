@@ -30,8 +30,3 @@ export interface Rotation {
   theta: number
   phi:   number
 }
-
-export interface Track {
-  x: number
-  y: number
-}
