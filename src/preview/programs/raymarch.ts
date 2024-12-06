@@ -3,6 +3,7 @@ import fragmentShaderSource from 'src/preview/glsl/raymarch.frag'
 import vertexShaderSource from 'src/preview/glsl/raymarch.vert'
 import { createShaderSource } from 'src/preview/glsl/utils'
 import { Camera } from 'src/state/camera'
+import { Settings } from 'src/state/settings'
 import { Program } from 'src/types'
 import { setupAttributes, updateAttributes } from 'src/webgl/attributes'
 import { createShaderProgram } from 'src/webgl/program'
@@ -37,7 +38,7 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
     1.0,  0.0,
     1.0,  1.0])
   
-  return { cleanup, draw, updateCamera, updateImage }
+  return { cleanup, draw, updateCamera, updateImage, updateSettings }
   
   function cleanup(): void {
     Object.values(attributes).forEach(a => gl.deleteBuffer(a.b))
@@ -81,5 +82,13 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
       updateUniforms({ gl, uniforms, values: { imgAspectRatio: [image.width / image.height] } })
     }
+  }
+  
+  function updateSettings(settings: Settings): void {
+    const { ...rest } = settings
+    
+    gl.useProgram(program!)
+    const values = prepareValues(rest)
+    updateUniforms({ gl, uniforms, values })
   }
 }

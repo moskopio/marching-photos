@@ -5,7 +5,7 @@ vec4 sampleSphere(in vec3 ray, in vec2 st, in vec2 size) {
   float scale = min(size.x, size.y) * 0.5;
   float sphereSize = 0.0001 + averange * scale;
   
-  float push = 0.3 * averange;
+  float push = uPush * averange;
   
   float sphere = sdSphere(ray, vec3(0, 0, -push), sphereSize);
   float torus = sdTorus(ray, vec3(0,0,-push), vec2(sphereSize * 0.5, sphereSize * 0.3));
@@ -37,6 +37,6 @@ vec4 repeated(in vec3 ray, in vec2 samples) {
 }
 
 vec4 sdScene(in vec3 ray) {
-  vec2 samples = vec2(400, 400);
-  return repeated(ray, samples);
+  // vec2 samples = vec2(u, 400);
+  return repeated(ray, uSamples);
 }

@@ -25,7 +25,7 @@ export function createDefaultCamera(): Camera {
 }
 
 export interface CameraAction extends DeepPartial<Camera> {
-  type: 'update' | 'set' | 'reset'
+  type: 'update' | 'set'
 }
 
 export function cameraReducer(state: Camera, action: CameraAction): Camera {
@@ -41,8 +41,6 @@ function reduce(state: Camera, action: CameraAction): Camera {
       return deepUpdate<Camera>(state, actionState)
     case 'set': 
       return deepSet<Camera>(state, actionState)
-    case 'reset':
-      return { ...createDefaultCamera(), aspectRatio: state.aspectRatio }
   }
 }
 

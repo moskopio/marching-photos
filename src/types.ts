@@ -1,4 +1,5 @@
 import { Camera } from "src/state/camera"
+import { Settings } from "src/state/settings"
 
 export type Vec3 = [number, number, number]
 export type Vec4 = [number, number, number, number]
@@ -16,10 +17,11 @@ export type DeepPartial<T> = {
 export type ViewMatrices = Dict<Matrix4 | Vec3>
 
 export interface Program {
-  cleanup:      () => void
-  draw:         (time: number) => void
-  updateCamera: (views: Camera) => void
-  updateImage:  (image: HTMLImageElement) => void
+  cleanup:        () => void
+  draw:           (time: number) => void
+  updateCamera:   (views: Camera) => void
+  updateImage:    (image: HTMLImageElement) => void
+  updateSettings: (settings: Settings) => void
 }
 
 export type Resolution = [width: number, height: number]
