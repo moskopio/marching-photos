@@ -3,11 +3,11 @@ import { Divider } from "src/components/Divider"
 import { Panel } from "src/components/Panel"
 import { Slider } from "src/components/Slider"
 import { AppContext } from "src/state/context"
-import { createPallette, PASTEL_COLORS } from "src/utils/color"
+import { createPallette } from "src/utils/color"
 
 export function SettingsPanel(): ReactElement {
   return (
-    <Panel label="Settings" icon="settings" color={PASTEL_COLORS.pancho}>
+    <Panel label="Settings" icon="settings">
     <Rotation />
     <Position />
     </Panel>

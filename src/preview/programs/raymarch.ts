@@ -79,6 +79,7 @@ export function createRaymarchProgram(gl: WebGLRenderingContext): Program | null
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
+      updateUniforms({ gl, uniforms, values: { imgAspectRatio: [image.width / image.height] } })
     }
   }
 }

@@ -20,12 +20,14 @@ vec4 sampleSphere(in vec3 ray, in vec2 st, in vec2 size) {
 vec4 repeated(in vec3 ray, in vec2 samples) {
   vec2 size = 2.0 / samples;
   vec2 constrains = samples / 2.0;
+  constrains.x *= uImgAspectRatio;
   
   vec3 repetition = ray;
   repetition.x = ray.x - size.x * clamp(round(ray.x / size.x), -constrains.x, constrains.x);
   repetition.y = ray.y - size.y * clamp(round(ray.y / size.y), -constrains.y, constrains.y);
 
   vec2 st = ray.xy;
+  st.x /= uImgAspectRatio;
   st.x = (st.x + 1.0) / 2.0;
   st.x = round((st.x) * samples.x) / samples.x;
   st.y = 1.0 - (st.y + 1.0) / 2.0;
@@ -35,6 +37,6 @@ vec4 repeated(in vec3 ray, in vec2 samples) {
 }
 
 vec4 sdScene(in vec3 ray) {
-  vec2 samples = vec2(50, 50);
+  vec2 samples = vec2(400, 400);
   return repeated(ray, samples);
 }

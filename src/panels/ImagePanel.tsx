@@ -6,7 +6,6 @@ import { PASTEL_COLORS } from "src/utils/color"
 import "./ImagePanel.css"
 
 export function ImagePanel(): ReactElement {
-  
   return (
     <Panel label="Image" icon="camera" color={PASTEL_COLORS.pancho}>
     <ImagePreview />
@@ -26,7 +25,7 @@ function ImagePreview(): ReactElement {
     <div className="panel-section">
       <div className="file-input" onClick={onClick}>
         <img className="preview-image" src={image.image?.src} />
-        <div className="file-icon" onClick={onClick} />
+        <div className="file-icon" />
         <input ref={inputRef} type="file" onChange={onFile} accept="image/png, image/jpeg" />
       </div>
     </div> 

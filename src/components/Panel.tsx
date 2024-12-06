@@ -4,7 +4,6 @@ import "./Panel.css"
 
 interface Props {
   children: ReactElement | ReactElement[] | string
-  color?:   string
   icon:     string
   label:    string
 }

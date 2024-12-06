@@ -13,11 +13,11 @@ export function createEmptyImageState(): ImageState {
 
 export function createDefaultImageState(): ImageState {
   const image = new Image()
-  image.src = '/marching-photos/cat2.jpg'
+  image.src = '/marching-photos/cat3.jpg'
     
   return {
     image,
-    name: 'cat2.jpg'
+    name: 'cat3.jpg'
   }
 }
 

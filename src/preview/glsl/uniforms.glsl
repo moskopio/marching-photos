@@ -9,3 +9,4 @@ uniform vec2 uRotation;
 uniform float uDolly;
 
 uniform sampler2D uImage;
+uniform float uImgAspectRatio;
