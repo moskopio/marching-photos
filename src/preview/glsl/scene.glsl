@@ -1,6 +1,6 @@
 #define BOX_SCALE   0.8
-#define TORUS_HOLE  0.4
-#define TORUS_OUTER 0.3
+#define TORUS_HOLE  0.5
+#define TORUS_OUTER 0.25
 
 #define DOMAIN_SCALE 0.5
 

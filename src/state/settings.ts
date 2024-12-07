@@ -40,7 +40,7 @@ export function createDefaultSettings(): Settings {
     shape:      Shape.Sphere,
     coloring:   Coloring.Shaded,
     advanced: {
-      shadingDisabled: false,
+      shadingDisabled: true,
       colorReversed:   false,
       scalingReversed: false,
       scalingDisabled: false,
