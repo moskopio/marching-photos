@@ -11,13 +11,10 @@ export function useImgLoad(): ObjLoad {
     
     if (file) {
       const image = new Image()
-      image.src = URL.createObjectURL(file)
-      
-      // A bit of a hack, but fixes problem with image load race
-      imageDispatch({ image, name: file.name })
       image.onload = (): void => {
         imageDispatch({ image, name: file.name })
       }
+      image.src = URL.createObjectURL(file)
     }
-  }, [])
+  }, [imageDispatch])
 }

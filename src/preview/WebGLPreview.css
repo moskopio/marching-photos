@@ -22,8 +22,8 @@
 }
 
 .webgl-canvas.light {
-  --canvas-color-1: #white;
-  --canvas-color-2: #667085;
+  --canvas-color-1: #667085;
+  --canvas-color-2: #white;
 }
 
 .webgl-canvas.dark {
