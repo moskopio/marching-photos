@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useRef } from "react"
+import { ReactElement, useCallback, useEffect, useRef } from "react"
 import { createPallette } from "src/utils/pallette"
 import "./Radio.css"
 
@@ -12,17 +12,34 @@ interface Props {
   value:    number
 }
 
+const ANGLES = [45, 75, 105, 130, 140]
+
 export function Radio(props: Props): ReactElement {
-  const { options } = props
-  const checkboxRef = useRef<HTMLDivElement | null>(null)
-  
+  const { options, value, onChange } = props
   const optionsKeys = Object.keys(options).map(key => Number(key))
+  const pallette = createPallette()
+  
+  const dialStyle = { transform: `rotate(${ANGLES[value]}deg)`}
+  const markStyle = { background: pallette.getColor(value) }
+  
+  const onClick = useCallback(() => {
+    const newValue = value + 1 < optionsKeys.length ? value + 1 : 0
+    onChange(newValue)
+  },
+  [optionsKeys, value, onChange])
   
   return (
-    <div className="radio" ref={checkboxRef}>
-      {optionsKeys.map(key => 
-      <RadioButton key={key} id={key} label={options[key] || `${key}`} {...props} />)
-      }
+    <div className="radio">
+      <div className="radio-dial" onClick={onClick}>
+        <div className="radio-dial-face" style={dialStyle}>
+          <div className="radio-dial-mark" style={markStyle} />
+        </div>
+      </div>
+      <div className="radio-buttons">
+        {optionsKeys.map(key => 
+        <RadioButton key={key} id={key} label={options[key] || `${key}`} {...props} />)
+        }
+      </div>
     </div>
   )
 }

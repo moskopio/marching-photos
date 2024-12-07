@@ -15,18 +15,23 @@ export const PASTEL_COLORS = {
 
 export interface Pallette {
   getNextColor: () => string
+  getColor:     (index: number) => string
 }
 
 export function createPallette(index: number = 0): Pallette {
   let counter = index
   const colors = Object.values(PASTEL_COLORS)
   
-  return { getNextColor }
+  return { getNextColor, getColor }
   
   function getNextColor(): string {
     const color = colors[counter]
     counter = ++counter < colors.length ? counter: 0
     
     return color
+  }
+  
+  function getColor(index: number): string {
+    return colors[index]
   }
 }
