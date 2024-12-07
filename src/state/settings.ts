@@ -16,6 +16,7 @@ export interface AdvancedSettings {
   scalingDisabled: boolean
   pushDisabled:    boolean
   pushReversed:    boolean
+  backgroundWhite: boolean
 }
 
 enum Shape {
@@ -45,6 +46,7 @@ export function createDefaultSettings(): Settings {
       scalingDisabled: false,
       pushDisabled:    false,
       pushReversed:    false,
+      backgroundWhite: false,
     }
   }
 }

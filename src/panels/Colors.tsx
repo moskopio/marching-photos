@@ -44,12 +44,16 @@ function Settings(): ReactElement {
     settingsDispatch({ advanced: { colorReversed } })
   }, [settingsDispatch])
   
+  const setBackgroundWhite = useCallback((backgroundWhite: boolean) => {
+    settingsDispatch({ advanced: { backgroundWhite } })
+  }, [settingsDispatch])
+  
   
   return (
     <div className="panel-section">
       <Checkbox
         color={pallette.getNextColor()}
-        label="Disable Shading"
+        label="Disable shading"
         onChange={setShadingDisabled}
         value={settings.advanced.shadingDisabled}
       />
@@ -58,6 +62,12 @@ function Settings(): ReactElement {
         label="Reverse colors"
         onChange={setColorReversed}
         value={settings.advanced.colorReversed}
+      />
+      <Checkbox
+        color={pallette.getNextColor()}
+        label="Light background"
+        onChange={setBackgroundWhite}
+        value={settings.advanced.backgroundWhite}
       />
     </div>
   )

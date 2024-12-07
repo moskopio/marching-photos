@@ -1,25 +1,31 @@
 import { ReactElement, useContext, useLayoutEffect, useRef, useState } from "react"
-import { useWebGLContext } from "src/preview/hooks/webgl-context"
 import { AppContext } from "src/state/context"
 import { Resolution } from "src/types"
-import './WebGLPreview.css'
 import { useMouseCameraControls } from "./hooks/mouse-camera-controls"
 import { useRenderScene } from "./hooks/render-scene"
 import { useTouchCameraControls } from "./hooks/touch-camera-controls"
+import { useWebGLContext } from "./hooks/webgl-context"
+import "./WebGLPreview.css"
 
 export function WebGLPreview(): ReactElement {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [resolution, setResolution] = useState<Resolution>([window.innerWidth, window.innerHeight])
-  const { cameraDispatch } = useContext(AppContext)
+  const { cameraDispatch, settings } = useContext(AppContext)
   
   const gl = useWebGLContext({ canvasRef })
   useMouseCameraControls()
   useTouchCameraControls({ canvasRef })
   useRenderScene({ gl })
   
+  const canvasStyle = {
+    background: settings.advanced.backgroundWhite 
+      ? "var(--light-canvas)"
+      : "var(--dark-canvas)"
+  }
+  
   useLayoutEffect(() => {
-    window.addEventListener('resize', updateResolution)
-    return () => window.removeEventListener('resize', updateResolution)
+    window.addEventListener("resize", updateResolution)
+    return () => window.removeEventListener("resize", updateResolution)
     
     function updateResolution(): void {
       const dpr = window.devicePixelRatio
@@ -28,7 +34,7 @@ export function WebGLPreview(): ReactElement {
       
       gl?.viewport(0, 0, displayWidth, displayHeight)
       setResolution([displayWidth, displayHeight])
-      cameraDispatch({ type: 'set', aspectRatio: displayWidth / displayHeight})
+      cameraDispatch({ type: "set", aspectRatio: displayWidth / displayHeight})
     }
   }, [gl, setResolution, cameraDispatch])
   
@@ -36,6 +42,7 @@ export function WebGLPreview(): ReactElement {
     <canvas
       ref={canvasRef}
       className="webgl-canvas"
+      style={canvasStyle}
       width={resolution[0]}
       height={resolution[1]}
     />

@@ -1,21 +1,24 @@
 :root {
-  --highlight-color: #FFF;
+  --highlight-color:     #FFF;
   --dim-highlight-color: #FFF9;
-  --shadow-color:    #000;
-  --bg-color:        #2A2c3390;
+  --shadow-color:        #000;
+  
   --bg-color-1: #52555f;
   --bg-color-2: #2a2e36;
   --bg-color-3: #0f1119;
-  --elements-border: 2px;
-  --elements-radius: 3px;
+  --bg-color-light: #667085;
+  
   --text-shadow:
     1px 1px 2px var(--shadow-color),
     -1px 1px 2px var(--shadow-color),
     -1px -1px 2px var(--shadow-color),
     1px -1px 2px var(--shadow-color);
+    
+  --dark-canvas: radial-gradient(var(--bg-color-2), var(--shadow-color));
+  --light-canvas: radial-gradient(white, var(--bg-color-light));
 }
- 
+
 body {
-  background: var(--bg-color);
+  background: var(--bg-color-2);
   overflow: hidden;
 }
