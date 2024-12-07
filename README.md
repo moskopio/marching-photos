@@ -4,7 +4,7 @@ A exploration of Raymarching domain repetition with unique ids to display 2D ima
 
 A pure Typescript, React + WebGL2 application.
 
-Preview of the application is available on Github Pages: 
+Live version is available on Github Pages: 
 https://moskopio.github.io/marching-photos
 
 ### Installation:
