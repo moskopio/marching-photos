@@ -1,3 +1,4 @@
+import { DeepPartial } from "src/types"
 
 export interface ImageState {
   name:  string
@@ -21,7 +22,7 @@ export function createDefaultImageState(): ImageState {
   }
 }
 
-export type ImageStateAction = ImageState
+export type ImageStateAction = DeepPartial<ImageState>
 
 export function imageStateReducer(state: ImageState, action: ImageStateAction): ImageState {
   return {...state, ...action }

@@ -1,5 +1,5 @@
 import { ReactElement, useCallback, useState } from "react"
-import { IconCamera, IconColor, IconFile, IconInfo, IconLight, IconSettings, IconShape } from "./Icon"
+import { IconCamera, IconColor, IconShape } from "./Icon"
 import "./Panel.css"
 
 interface Props {
@@ -66,13 +66,9 @@ function PanelIcon(props: PanelIconProps): ReactElement {
   
   switch (icon) {
     case "camera":   return <IconCamera />
-    case "file"  :   return <IconFile />
-    case "info"  :   return <IconInfo />
-    case "light" :   return <IconLight />
-    case "settings": return <IconSettings />
     case "color":    return <IconColor />
     case "shape":    return <IconShape />
-    default:         return <IconInfo />
+    default:         return <IconCamera />
   }
   
 }

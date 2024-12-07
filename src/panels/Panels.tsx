@@ -1,9 +1,9 @@
 import { ReactElement, useEffect, useMemo, useRef, useState } from "react"
 import { constrain } from "src/utils/util"
+import { Colors } from "./Colors"
+import { ImagePanel } from "./Image"
 import { ShapePanel } from "./Shape"
 import "./Panels.css"
-import { ImagePanel } from "src/panels/Image"
-import { Colors } from "src/panels/Colors"
 
 const MARGIN = 8
 const SCROLL_SPEED = 20

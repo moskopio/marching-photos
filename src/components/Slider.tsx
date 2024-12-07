@@ -37,4 +37,3 @@ export function Slider(props: Props): ReactElement {
     </div>
   )
 }
-

@@ -55,7 +55,7 @@ function RadioButton(props: RadioButtonProps): ReactElement {
   const buttonRef = useRef<HTMLDivElement | null>(null)
   const pallette = createPallette(id)
   
-  // Looks overcomplicated, but it is necessary (possibly?), to avoid click delays
+  // Looks overcomplicated, but it is necessary to avoid click delays
   useEffect(() => {
     const checkbox = buttonRef.current
     const onClick = () => onChange(id)

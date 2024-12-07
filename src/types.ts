@@ -1,11 +1,6 @@
 import { Camera } from "src/state/camera"
 import { Settings } from "src/state/settings"
 
-export type Vec3 = [number, number, number]
-export type Vec4 = [number, number, number, number]
-export type Matrix4 = number[]
-export type FileContent = string | ArrayBuffer | null | undefined
-
 export interface Dict<T> {
   [key: string]: T | undefined
 }
@@ -13,8 +8,6 @@ export interface Dict<T> {
 export type DeepPartial<T> = {
   [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K]
 }
-
-export type ViewMatrices = Dict<Matrix4 | Vec3>
 
 export interface Program {
   cleanup:        () => void
@@ -26,6 +19,7 @@ export interface Program {
 
 export type Resolution = [width: number, height: number]
 
+// TODO: could be replaced with number array
 export interface Rotation {
   theta: number
   phi:   number

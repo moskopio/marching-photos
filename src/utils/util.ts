@@ -25,3 +25,13 @@ export function getPercentage(value: number, min: number, max: number): number {
   const percentage = ((value - min) / (max - min)) * 100
   return constrain(percentage, 0, 100)
 }
+
+export function degToRad(deg: number): number {
+  return deg * Math.PI / 180
+}
+
+
+export function limit(value: number, min: number, max: number): number {
+  return Math.max(Math.min(value, max), min)
+}
+

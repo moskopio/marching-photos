@@ -13,7 +13,7 @@ export const PASTEL_COLORS = {
   lynch:    '#628090',
  } as const
 
-export interface Pallette {
+interface Pallette {
   getNextColor: () => string
   getColor:     (index: number) => string
 }

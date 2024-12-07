@@ -66,7 +66,7 @@ export function updateUniforms(args: UpdateArgs): void {
   })
 }
 
-export function prepareValues(values: Dict<number | number[] | boolean>): Values {
+export function prepareUniformsValues(values: Dict<number | number[] | boolean>): Values {
   const prepared: Values = {}
   const valuesNames = Object.keys(values)
   

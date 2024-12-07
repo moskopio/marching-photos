@@ -1,13 +1,13 @@
-import { degToRad } from 'src/math/utls'
 import fragmentShaderSource from 'src/preview/glsl/raymarch.frag'
 import vertexShaderSource from 'src/preview/glsl/raymarch.vert'
 import { createShaderSource } from 'src/preview/glsl/utils'
 import { Camera } from 'src/state/camera'
 import { AdvancedSettings, Settings } from 'src/state/settings'
 import { Program } from 'src/types'
+import { degToRad } from 'src/utils/util'
 import { updateAttributes } from 'src/webgl/attributes'
 import { createShaderProgram } from 'src/webgl/program'
-import { getUniforms, prepareValues, updateUniforms } from 'src/webgl/uniforms'
+import { getUniforms, prepareUniformsValues, updateUniforms } from 'src/webgl/uniforms'
 
 export function createRaymarchProgram(gl: WebGL2RenderingContext): Program | null {
   const fragmentSourceComposed = createShaderSource(fragmentShaderSource)
@@ -47,7 +47,7 @@ export function createRaymarchProgram(gl: WebGL2RenderingContext): Program | nul
     
     gl.useProgram(program!)
     
-    const values = prepareValues({
+    const values = prepareUniformsValues({
       aspectRatio,
       dolly,
       rotation: [degToRad(theta), degToRad(phi)],
@@ -75,7 +75,7 @@ export function createRaymarchProgram(gl: WebGL2RenderingContext): Program | nul
     const flags = buildFlags(advanced)
     
     gl.useProgram(program!)
-    const values = prepareValues({ flags, ...rest })
+    const values = prepareUniformsValues({ flags, ...rest })
     updateUniforms({ gl, uniforms, values })
   }
 }

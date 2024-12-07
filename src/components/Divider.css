@@ -5,6 +5,8 @@
   color: var(--highlight-color);
   user-select: none;
   margin-bottom: 5px;
+  font-family: system-ui;
+  font-size: 11px;
 }
 
 .divider::before {

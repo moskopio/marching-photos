@@ -1,12 +1,10 @@
 .panels {
-  position: absolute;
-  margin-top: 8px;
+  color: var(--highlight-color);
   display: flex;
   flex-direction: column;
   gap: 5px;
-  font-size: 11px;
-  color: var(--highlight-color);
-  font-family: system-ui;
-  width: auto;
+  margin-top: 8px;
   overflow: visible;
+  position: absolute;
+  width: auto;
 }

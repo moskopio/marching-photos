@@ -108,17 +108,11 @@ function Samples(): ReactElement {
 
 function Shape(): ReactElement {
   const { settings, settingsDispatch } = useContext(AppContext)
+  const options = { 0: 'Sphere', 1: 'Torus', 2: 'Octahedron', 3: 'Box' }
   
   const setShape = useCallback((val: number) => {
     settingsDispatch({ shape: val })
   }, [settingsDispatch])
-  
-  const options = {
-    0: 'Sphere',
-    1: 'Torus',
-    2: 'Octahedron',
-    3: 'Box'
-  }
   
   return (
     <div className="panel-section">
@@ -130,7 +124,6 @@ function Shape(): ReactElement {
 
 function Settings(): ReactElement {
   const { settings, settingsDispatch } = useContext(AppContext)
-  
   const pallette = createPallette(8)
   
   const setScalingReversed = useCallback((scalingReversed: boolean) => {

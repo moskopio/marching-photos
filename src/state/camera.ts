@@ -1,8 +1,8 @@
 import { DeepPartial, Rotation } from "src/types"
 import { flipConstrain } from "src/utils/util"
 
-import { limit } from "src/math/utls"
 import { deepSet, deepUpdate } from "src/utils/merge"
+import { limit } from "src/utils/util"
 
 export interface Camera {
   aspectRatio: number
