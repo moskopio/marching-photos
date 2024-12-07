@@ -14,9 +14,8 @@ vec3 calculateShading(in Scene scene) {
   
   float toLightNormal = clamp(dot(lightPosition, normal), 0.0, 1.0);
   float viewAngleNormal = clamp(dot(cameraPosition, normal), 0.0, 1.0);
-
-  float adjustedSpecularIntensity = max(1.0, SPECULAR_MAX - SPECULAR_ALPHA
-);
+  
+  float adjustedSpecularIntensity = max(1.0, SPECULAR_MAX - SPECULAR_ALPHA);
   float diffuseShade = toLightNormal;
   float specularShade = pow(viewAngleNormal, adjustedSpecularIntensity);
   float fresnelShade = max(0.0, FRESNEL_ALPHA - viewAngleNormal);

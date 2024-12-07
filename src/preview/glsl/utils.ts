@@ -1,17 +1,13 @@
 import normals from './normals.glsl'
-import operators from './operators.glsl'
 import primitives from './primitives.glsl'
-import rotations from './rotations.glsl'
 import scene from './scene.glsl'
 import shading from './shading.glsl'
-import uniforms from './uniforms.glsl'
+import header from './header.glsl'
 
 export function createShaderSource(shaderSource: string): string {
   return [
-    uniforms,
-    operators,
+    header,
     primitives,
-    rotations,
     shading,
     scene,
     normals,

@@ -25,3 +25,15 @@ struct Scene {
   vec3 normal;
   vec3 elementColor;
 };
+
+struct Result {
+  vec4  color;
+  float size;
+  float distance;
+};
+
+mat2 rot2D(in float angle) {
+  float s = sin(angle);
+  float c = cos(angle);
+  return mat2(c, -s, s, c);
+}

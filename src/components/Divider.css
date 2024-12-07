@@ -4,6 +4,7 @@
   height: 16px;
   color: var(--highlight-color);
   user-select: none;
+  margin-bottom: 5px;
 }
 
 .divider::before {

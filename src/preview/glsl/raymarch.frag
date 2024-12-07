@@ -1,45 +1,63 @@
 #define STEP_BIAS 0.15
 #define AA 1.0
+#define AA_STEP 0.001
+#define FOV 0.4
 
-vec4 raymarch(vec3 origin, vec3 direction) {
-	float totalDistance = 0.0;
-  vec3 color = vec3(0);
+#define MIN_SIZE     0.0001
+#define MIN_ALPHA    0.1
+#define MIN_COLOR    0.1
+#define MAX_DISTANCE 50.0
+#define MIN_DISTANCE 0.0001
+
+Result raymarch(vec3 origin, vec3 direction) {
+  float totalDistance = 0.0;
+  Result element = Result(vec4(0.0), 0.0, 0.0);
   
-	for (int i = 0; i < 640; i++) {
-		vec3 ray = origin + totalDistance * direction;
-		vec4 closestElement = sdScene(ray);
-    float colorSum = closestElement.r + closestElement.g + closestElement.b;
+  // Close proximity of domain repetition requires a lot of steps, otherwise it will be glitchy
+  for (int i = 0; i < 640; i++) {
+  vec3 ray = origin + totalDistance * direction;
+    Result closestElement = sampleScene(ray);
     
-    totalDistance += closestElement.a * STEP_BIAS;
-    color = closestElement.rgb;
-
-		if (abs(closestElement.a) <= 0.0000001) break;
-    if (abs(totalDistance) > 50.0 || abs(closestElement.a) > 50.0) break;
-	}
+    // STEP_BIAS is necessary for when elements appear in front of other domains, as without it
+    // distance can be misscalculated.
+    totalDistance += closestElement.distance * STEP_BIAS;
+    
+    element = Result(closestElement.color, closestElement.size, totalDistance);
+    
+    if (abs(closestElement.distance) <= MIN_DISTANCE) break;
+    if (abs(totalDistance) >= MAX_DISTANCE) break;
+    if (abs(closestElement.distance) >= MAX_DISTANCE) break;
+  }
   
-	return vec4(color.rgb, totalDistance);
+  return element;
 }
 
 vec4 calculateSceneColor(in vec3 origin, in vec3 direction) {
-  vec4 closestElement = raymarch(origin, direction);
-  float distance = closestElement.a;
-  vec3 position = origin + distance * direction;
+  Result element = raymarch(origin, direction);
+  vec3 position = origin + element.distance * direction;
   vec3 normal = calculateNormals(position);
   
-  float colorSum = closestElement.r + closestElement.g + closestElement.b;
-  vec3 elementColor = closestElement.rgb;
-  elementColor = mix(elementColor, vec3(colorSum / 3.0), float(uColoring == 2.0));
-  elementColor = mix(elementColor, vec3(1), float(uColoring == 3.0));
-  elementColor = mix(elementColor, vec3(0), float(uColoring == 4.0));
+  float colorSum = element.color.r + element.color.g + element.color.b;
+  vec3 color = element.color.rgb;
+  color = mix(color, vec3(colorSum / 3.0), float(uColoring == 2.0));
+  color = mix(color, vec3(1), float(uColoring == 3.0));
+  color = mix(color, vec3(0), float(uColoring == 4.0));
   
-  Scene scene = Scene(origin, origin, normal, elementColor);
-  vec3 lightColor = calculateShading(scene);
-  vec3 color = lightColor;
-  color = mix(color, closestElement.rgb, float(uColoring == 1.0));
+  Scene scene = Scene(origin, origin, normal, color);
+  color = calculateShading(scene);
+  color = mix(color, element.color.rgb, float(uColoring == 1.0));
   
-  float alpha = distance >= 50.0 ? 0.0 : 1.0;
-  alpha = colorSum < 0.1 ? 0.0 : alpha;
-  color = distance >= 50.0 ? vec3(0): color;
+  // blackening too far elements, too small ones, and not visible ones
+  color = mix(color, vec3(0.0), float(element.distance >= MAX_DISTANCE));
+  color = mix(color, vec3(0.0), float(element.color.a <= MIN_ALPHA));
+  color = mix(color, vec3(0.0), float(element.size < MIN_SIZE));
+  color = mix(color, vec3(0.0), float(colorSum < MIN_COLOR));
+  
+  // hidding (naivly) elements too small or not visible
+  float alpha = mix(element.color.a, 0.0, float(element.distance >= MAX_DISTANCE));
+  alpha = mix(alpha, 0.0, float(element.color.a <= MIN_ALPHA));
+  alpha = mix(alpha, 0.0, float(element.size < MIN_SIZE));
+  alpha = mix(alpha, 0.0, float(colorSum < MIN_COLOR));
   
   return vec4(color, alpha);
 }
@@ -47,7 +65,7 @@ vec4 calculateSceneColor(in vec3 origin, in vec3 direction) {
 void main() {
   vec2 uv = vec2(vPos.x * uAspectRatio, vPos.y);
   vec3 origin = vec3(0, 0, -3);
-  vec3 direction = normalize(vec3(uv * 0.4, 1.0));
+  vec3 direction = normalize(vec3(uv * FOV, 1.0));
   direction.z -= uDolly;
   
   origin.yz *= rot2D(-uRotation.x);
@@ -59,12 +77,11 @@ void main() {
   for (float i = 0.0; i < AA; i++)
   for (float j = 0.0; j < AA; j++) {
     vec3 aaRay = direction;
-    aaRay.x += i * 0.001;
-    aaRay.y += j * 0.001;
+    aaRay.x += i * AA_STEP;
+    aaRay.y += j * AA_STEP;
     color += calculateSceneColor(origin, aaRay);
   }
   color = color / (AA * AA);
   
   outColor = color;
 }
-
