@@ -1,17 +1,29 @@
-#define BOX_SCALE    0.8
-#define TORUS_HOLE   0.4
-#define TORUS_OUTER  0.3
+#define BOX_SCALE   0.8
+#define TORUS_HOLE  0.4
+#define TORUS_OUTER 0.3
 
 #define DOMAIN_SCALE 0.5
 
+#define SHAPE_TORUS 1.0
+#define SHAPE_OCTA  2.0
+#define SHAPE_BOX   3.0
+
+#define IGNORED_SIZE 0.01
+
 Result sampleElement(in vec3 ray, in vec2 st, in vec2 domainSize) {
   vec4 texture = texture(uImage, st);
-  float averange = (texture.x + texture.y + texture.z) / 3.0;
+  float sampleAverange = (texture.x + texture.y + texture.z) / 3.0;
+  
+  float averange = bool(uFlags & FLAG_SCALING_REVERSE) ? (1.0 - sampleAverange) : sampleAverange;
+  
   float scale = min(domainSize.x, domainSize.y) * DOMAIN_SCALE;
-  // float size = averange * scale * texture.a;
   float size = averange * scale;
+  size = bool(uFlags & FLAG_SCALING_DISABLED) && sampleAverange > IGNORED_SIZE ? scale : size;
   
   float push = uPush * averange;
+  push = bool(uFlags & FLAG_PUSH_REVERSE) ? -push: push;
+  push = bool(uFlags & FLAG_PUSH_DISABLED) ? 0.0: push;
+  
   vec3 position = vec3(0, 0, -push);
   
   float sphere = sampleSphere(ray, position, size);
@@ -20,12 +32,11 @@ Result sampleElement(in vec3 ray, in vec2 st, in vec2 domainSize) {
   // Boxes glitch down when full size, so they need to be scaled down
   float box = sampleBox(ray, position, vec3(size * BOX_SCALE));
   
-  float distance = mix(sphere, torus, float(uShape == 1.0));
-  distance = mix(distance, octa, float(uShape == 2.0));
-  distance = mix(distance, box,  float(uShape == 3.0));
+  float distance = mix(sphere, torus, float(uShape == SHAPE_TORUS));
+  distance = mix(distance, octa, float(uShape == SHAPE_OCTA));
+  distance = mix(distance, box,  float(uShape == SHAPE_BOX));
   
-  Result result = Result(texture, size, distance);
-  return result;
+  return Result(texture, size, distance);;
 }
 
 Result repeated(in vec3 ray, in vec2 samples) {

@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useMemo, useRef } from "react"
+import { ReactElement, useEffect, useRef } from "react"
 import { PASTEL_COLORS } from "src/utils/pallette"
 import "./Checkbox.css"
 
@@ -26,13 +26,11 @@ export function Checkbox(props: Props): ReactElement {
     }
   },[onChange, checkboxRef, value])
     
-  const style = useMemo(() => ({
-    background: `${value ? color : "transparent"}`
-  }), [value, color])
+  const style = { background: value ? color : 'var(--bg-color-2)' }
 
   return (
     <div className="checkbox" ref={checkboxRef} >
-      <div className="checkbox-box" style={style} />
+      <div className={`checkbox-box ${value ? 'check' : ''}`} style={style} />
       <div className="checkbox-label">{label}</div>
     </div>
   )

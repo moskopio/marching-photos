@@ -1,11 +1,21 @@
 import { DeepPartial } from "src/types"
-import { deepSet, deepUpdate } from "src/utils/merge"
+import { deepSet } from "src/utils/merge"
 
 export interface Settings {
-  samples:    [number, number]
-  push:       number
-  shape:      Shape
-  coloring:   Coloring
+  samples:  [number, number]
+  push:     number
+  shape:    Shape
+  coloring: Coloring
+  advanced: AdvancedSettings
+}
+
+export interface AdvancedSettings {
+  shadingDisabled: boolean
+  colorReversed:   boolean
+  scalingReversed: boolean
+  scalingDisabled: boolean
+  pushDisabled:    boolean
+  pushReversed:    boolean
 }
 
 enum Shape {
@@ -17,10 +27,9 @@ enum Shape {
 
 enum Coloring {
   Shaded    = 0,
-  Simple    = 1,
-  Grayscale = 2,
-  White     = 3,
-  Black     = 4,
+  Grayscale = 1,
+  White     = 2,
+  Black     = 3,
 }
 
 export function createDefaultSettings(): Settings {
@@ -29,12 +38,18 @@ export function createDefaultSettings(): Settings {
     push:       0.3,
     shape:      Shape.Sphere,
     coloring:   Coloring.Shaded,
+    advanced: {
+      shadingDisabled: false,
+      colorReversed:   false,
+      scalingReversed: false,
+      scalingDisabled: false,
+      pushDisabled:    false,
+      pushReversed:    false,
+    }
   }
 }
 
-export interface SettingsAction extends DeepPartial<Settings> {
-  type: 'update' | 'set'
-}
+export type SettingsAction = DeepPartial<Settings>
 
 export function settingsReducer(state: Settings, action: SettingsAction): Settings {
   const newState = reduce(state, action)
@@ -42,14 +57,7 @@ export function settingsReducer(state: Settings, action: SettingsAction): Settin
 }
 
 function reduce(state: Settings, action: SettingsAction): Settings {
-  const { type, ...actionState } = action
-  
-  switch (type) {
-    case 'update':
-      return deepUpdate<Settings>(state, actionState)
-    case 'set': 
-      return deepSet<Settings>(state, actionState)
-  }
+  return deepSet<Settings>(state, action)
 }
 
 function constrain(state: Settings): Settings {

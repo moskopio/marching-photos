@@ -1,4 +1,5 @@
 import { ReactElement, useCallback, useContext } from "react"
+import { Checkbox } from "src/components/Checkbox"
 import { Divider } from "src/components/Divider"
 import { Panel } from "src/components/Panel"
 import { Radio } from "src/components/Radio"
@@ -9,9 +10,10 @@ import { createPallette, PASTEL_COLORS } from "src/utils/pallette"
 export function ShapePanel(): ReactElement {
   return (
     <Panel label="Shape" icon="shape" color={PASTEL_COLORS.givry} >
-    <Position />
-    <Samples />
-    <Shape />
+      <Position />
+      <Samples />
+      <Shape />
+      <Settings />
     </Panel>
   )
 }
@@ -71,11 +73,11 @@ function Samples(): ReactElement {
   const pallette = createPallette(3)
   
   const setXSamples = useCallback((val: number) => {
-    settingsDispatch({ type: "set", samples: [val, val] })
+    settingsDispatch({ samples: [val, val] })
   }, [settingsDispatch])
   
   const setPush = useCallback((push: number) => {
-    settingsDispatch({ type: "set", push })
+    settingsDispatch({ push })
   }, [settingsDispatch])
   
   
@@ -108,7 +110,7 @@ function Shape(): ReactElement {
   const { settings, settingsDispatch } = useContext(AppContext)
   
   const setShape = useCallback((val: number) => {
-    settingsDispatch({ type: "set", shape: val })
+    settingsDispatch({ shape: val })
   }, [settingsDispatch])
   
   const options = {
@@ -122,6 +124,58 @@ function Shape(): ReactElement {
     <div className="panel-section">
       <Divider label="Shape" />
       <Radio options={options} onChange={setShape} value={settings.shape} />
+    </div>
+  )
+}
+
+function Settings(): ReactElement {
+  const { settings, settingsDispatch } = useContext(AppContext)
+  
+  const pallette = createPallette(8)
+  
+  const setScalingReversed = useCallback((scalingReversed: boolean) => {
+    settingsDispatch({ advanced: { scalingReversed } })
+  }, [settingsDispatch])
+  
+  const setScalingDisabled = useCallback((scalingDisabled: boolean) => {
+    settingsDispatch({ advanced: { scalingDisabled } })
+  }, [settingsDispatch])
+  
+  const setPushDisabled = useCallback((pushDisabled: boolean) => {
+    settingsDispatch({ advanced: { pushDisabled } })
+  }, [settingsDispatch])
+  
+  const setPushReversed = useCallback((pushReversed: boolean) => {
+    settingsDispatch({ advanced: { pushReversed } })
+  }, [settingsDispatch])
+  
+  
+  return (
+    <div className="panel-section">
+      <Checkbox
+        color={pallette.getNextColor()}
+        label="Reverse scaling"
+        onChange={setScalingReversed}
+        value={settings.advanced.scalingReversed}
+      />
+      <Checkbox
+        color={pallette.getNextColor()}
+        label="Disable scaling"
+        onChange={setScalingDisabled}
+        value={settings.advanced.scalingDisabled}
+      />
+      <Checkbox
+        color={pallette.getNextColor()}
+        label="Reverse push"
+        onChange={setPushReversed}
+        value={settings.advanced.pushReversed}
+      />
+      <Checkbox
+        color={pallette.getNextColor()}
+        label="Disable push"
+        onChange={setPushDisabled}
+        value={settings.advanced.pushDisabled}
+      />
     </div>
   )
 }

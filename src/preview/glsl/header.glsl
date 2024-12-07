@@ -18,6 +18,13 @@ uniform float uImgAspectRatio;
 uniform float uShape;
 uniform float uColoring;
 
+#define FLAG_SHADING_DISABLED 1
+#define FLAG_SCALING_DISABLED 2
+#define FLAG_SCALING_REVERSE  4
+#define FLAG_COLOR_REVERSE    8
+#define FLAG_PUSH_DISABLED    16
+#define FLAG_PUSH_REVERSE     32
+uniform int uFlags;
 
 struct Scene {
   vec3 cameraPosition;
@@ -31,9 +38,3 @@ struct Result {
   float size;
   float distance;
 };
-
-mat2 rot2D(in float angle) {
-  float s = sin(angle);
-  float c = cos(angle);
-  return mat2(c, -s, s, c);
-}

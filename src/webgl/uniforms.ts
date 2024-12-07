@@ -1,5 +1,4 @@
 import { Dict } from "src/types"
-import { isObject } from "src/utils/util"
 
 interface Uniform {
   loc:  WebGLUniformLocation | null
@@ -59,42 +58,12 @@ export function updateUniforms(args: UpdateArgs): void {
         case gl.FLOAT: 
           gl.uniform1fv(uniform.loc, values[name])
           break
-          
+        case gl.INT: 
+          gl.uniform1iv(uniform.loc, values[name])
+        break
       }
     }
   })
-}
-
-interface UpdateTextureArgs {
-  gl:       WebGL2RenderingContext
-  uniforms: Uniforms
-  values:   Dict<WebGLTexture>
-}
-
-// textures counter is common across all of the programs!
-export function updateUniformTextures(args: UpdateTextureArgs): void {
-  const { gl, uniforms, values } = args
-  const samplerUniforms = Object.keys(uniforms).filter(n => uniforms[n]?.type === gl.SAMPLER_2D)
-
-  let textureIndex = 0
-  samplerUniforms.forEach(name => {
-    const uniform = uniforms[name]
-    const texture = values[name]
-    
-    if (uniform && texture) {
-      gl.bindTexture(gl.TEXTURE_2D, texture)
-      gl.uniform1i(uniform.loc, textureIndex)
-      gl.activeTexture(gl.TEXTURE0 + textureIndex)
-      textureIndex++
-    }
-  })
-  gl.bindTexture(gl.TEXTURE_2D, null)
-}
-
-function prepareName(name: string): string {
-  const noPrefix = name[0] === 'u' || name[0] === 'a' ? name.slice(1) : name
-  const noUppercase = noPrefix[0].toLowerCase() + noPrefix.slice(1)
-  return noUppercase
 }
 
 export function prepareValues(values: Dict<number | number[] | boolean>): Values {
@@ -113,26 +82,11 @@ export function prepareValues(values: Dict<number | number[] | boolean>): Values
   })
   
   return prepared
-} 
-
-//eslint-disable-next-line
-export function flattenValues(values: Dict<any>): Dict<number | number[] | boolean> {
-  const flatValues: Dict<number | number[] | boolean> = {}
-
-  for (const key in values) {
-    if (isObject(values[key])) {
-      const flatObject = flattenValues(values[key])
-      for (const key2 in flatObject) {
-        flatValues[key + '.' + key2] = flatObject[key2]
-      }
-    } else {
-      flatValues[key] = values[key]
-    }
-  }
-  return flatValues
 }
 
-//eslint-disable-next-line
-export function flattenAndPrepare(values: Dict<any>): Values {
-  return prepareValues(flattenValues(values))
+function prepareName(name: string): string {
+  const noPrefix = name[0] === 'u' || name[0] === 'a' ? name.slice(1) : name
+  const noUppercase = noPrefix[0].toLowerCase() + noPrefix.slice(1)
+  return noUppercase
 }
+

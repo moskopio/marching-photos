@@ -9,6 +9,10 @@
 #define MAX_DISTANCE 50.0
 #define MIN_DISTANCE 0.0001
 
+#define COLORING_GRAY  1.0
+#define COLORING_WHITE 2.0
+#define COLORING_BLACK 3.0
+
 Result raymarch(vec3 origin, vec3 direction) {
   float totalDistance = 0.0;
   Result element = Result(vec4(0.0), 0.0, 0.0);
@@ -39,13 +43,14 @@ vec4 calculateSceneColor(in vec3 origin, in vec3 direction) {
   
   float colorSum = element.color.r + element.color.g + element.color.b;
   vec3 color = element.color.rgb;
-  color = mix(color, vec3(colorSum / 3.0), float(uColoring == 2.0));
-  color = mix(color, vec3(1), float(uColoring == 3.0));
-  color = mix(color, vec3(0), float(uColoring == 4.0));
+  color = mix(color, vec3(colorSum / 3.0), float(uColoring == COLORING_GRAY));
+  color = mix(color, vec3(1), float(uColoring == COLORING_WHITE));
+  color = mix(color, vec3(0), float(uColoring == COLORING_BLACK));
   
   Scene scene = Scene(origin, origin, normal, color);
-  color = calculateShading(scene);
-  color = mix(color, element.color.rgb, float(uColoring == 1.0));
+  vec3 shadedColor = calculateShading(scene);
+  color = mix(shadedColor, color, float(bool(uFlags & FLAG_SHADING_DISABLED)));
+  color = mix(color, 1.0 - color, float(bool(uFlags & FLAG_COLOR_REVERSE)));
   
   // blackening too far elements, too small ones, and not visible ones
   color = mix(color, vec3(0.0), float(element.distance >= MAX_DISTANCE));
@@ -60,6 +65,12 @@ vec4 calculateSceneColor(in vec3 origin, in vec3 direction) {
   alpha = mix(alpha, 0.0, float(colorSum < MIN_COLOR));
   
   return vec4(color, alpha);
+}
+
+mat2 rot2D(in float angle) {
+  float s = sin(angle);
+  float c = cos(angle);
+  return mat2(c, -s, s, c);
 }
 
 void main() {

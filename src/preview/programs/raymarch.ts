@@ -3,14 +3,13 @@ import fragmentShaderSource from 'src/preview/glsl/raymarch.frag'
 import vertexShaderSource from 'src/preview/glsl/raymarch.vert'
 import { createShaderSource } from 'src/preview/glsl/utils'
 import { Camera } from 'src/state/camera'
-import { Settings } from 'src/state/settings'
+import { AdvancedSettings, Settings } from 'src/state/settings'
 import { Program } from 'src/types'
 import { updateAttributes } from 'src/webgl/attributes'
 import { createShaderProgram } from 'src/webgl/program'
 import { getUniforms, prepareValues, updateUniforms } from 'src/webgl/uniforms'
 
 export function createRaymarchProgram(gl: WebGL2RenderingContext): Program | null {
-  
   const fragmentSourceComposed = createShaderSource(fragmentShaderSource)
   const program = createShaderProgram(gl, vertexShaderSource, fragmentSourceComposed)
   if (!program) {
@@ -20,17 +19,12 @@ export function createRaymarchProgram(gl: WebGL2RenderingContext): Program | nul
   
   const attributes = {
     position: { p: gl.getAttribLocation(program, 'aPosition'), s: 2, b: gl.createBuffer()! },
-    
-    
   }
+  
   const uniforms = getUniforms(gl, program)
   const position = new Float32Array([
-    0.0,  0.0,
-    1.0,  0.0,
-    0.0,  1.0,
-    0.0,  1.0,
-    1.0,  0.0,
-    1.0,  1.0
+    0.0, 0.0, 1.0, 0.0, 0.0, 1.0, // first triangle
+    0.0, 1.0, 1.0, 0.0, 1.0, 1.0  // second triangle
    ])
    updateAttributes({ gl, attributes, values: { position } })
   
@@ -62,7 +56,7 @@ export function createRaymarchProgram(gl: WebGL2RenderingContext): Program | nul
   }
   
   function updateImage(image: HTMLImageElement): void {
-    image.onload = function() {
+    image.onload = (): void => {
       const texture = gl.createTexture()
       gl.bindTexture(gl.TEXTURE_2D, texture)
       
@@ -76,10 +70,25 @@ export function createRaymarchProgram(gl: WebGL2RenderingContext): Program | nul
   }
   
   function updateSettings(settings: Settings): void {
-    const { ...rest } = settings
+    const { advanced, ...rest } = settings
+    
+    const flags = buildFlags(advanced)
     
     gl.useProgram(program!)
-    const values = prepareValues(rest)
+    const values = prepareValues({ flags, ...rest })
     updateUniforms({ gl, uniforms, values })
   }
+}
+
+// TODO: clean it up!
+function buildFlags(advanced: AdvancedSettings): number {
+  let flags = 0
+  flags |= advanced.shadingDisabled ? flags | 1  : flags
+  flags |= advanced.scalingDisabled ? flags | 2  : flags
+  flags |= advanced.scalingReversed ? flags | 4  : flags
+  flags |= advanced.colorReversed   ? flags | 8  : flags
+  flags |= advanced.pushDisabled    ? flags | 16 : flags
+  flags |= advanced.pushReversed    ? flags | 32 : flags
+  
+  return flags
 }
