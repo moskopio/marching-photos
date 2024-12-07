@@ -5,21 +5,8 @@ export interface ImageState {
   image: HTMLImageElement | null
 }
 
-export function createEmptyImageState(): ImageState {
-  return {
-    name: '',
-    image: null
-  }
-}
-
 export function createDefaultImageState(): ImageState {
-  const image = new Image()
-  image.src = '/marching-photos/cat3.jpg'
-    
-  return {
-    image,
-    name: 'cat2.jpg'
-  }
+  return { name: '', image: null }
 }
 
 export type ImageStateAction = DeepPartial<ImageState>

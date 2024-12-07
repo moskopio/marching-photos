@@ -11,9 +11,7 @@ export function useImgLoad(): ObjLoad {
     
     if (file) {
       const image = new Image()
-      image.onload = (): void => {
-        imageDispatch({ image, name: file.name })
-      }
+      image.onload = (): void => imageDispatch({ image, name: file.name })
       image.src = URL.createObjectURL(file)
     }
   }, [imageDispatch])

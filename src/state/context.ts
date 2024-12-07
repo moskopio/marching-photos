@@ -1,6 +1,6 @@
-import { createContext, Dispatch, Reducer, useMemo, useReducer } from "react"
+import { createContext, Dispatch, Reducer, useEffect, useMemo, useReducer } from "react"
 import { Camera, CameraAction, cameraReducer, createDefaultCamera } from "./camera"
-import { createDefaultImageState, createEmptyImageState, ImageState, ImageStateAction, imageStateReducer } from "./image"
+import { createDefaultImageState, ImageState, ImageStateAction, imageStateReducer } from "./image"
 import { createDefaultSettings, Settings, SettingsAction, settingsReducer } from "./settings"
 
 interface AppState {
@@ -15,7 +15,7 @@ interface AppState {
 export const AppContext = createContext<AppState>({
   camera:           createDefaultCamera(),
   cameraDispatch:   () => {},
-  image:            createEmptyImageState(),
+  image:            createDefaultImageState(),
   imageDispatch:    () => {},
   settings:         createDefaultSettings(),
   settingsDispatch: () => {},
@@ -25,6 +25,12 @@ export function useAppState(): AppState {
   const [camera, cameraDispatch] = useReducer<Reducer<Camera, CameraAction>>(cameraReducer, createDefaultCamera())
   const [image, imageDispatch] = useReducer<Reducer<ImageState, ImageStateAction>>(imageStateReducer, createDefaultImageState())
   const [settings, settingsDispatch] = useReducer<Reducer<Settings, SettingsAction>>(settingsReducer, createDefaultSettings())
+  
+  useEffect(() => {
+    const image = new Image()
+    image.onload = (): void => imageDispatch({ image, name: 'cat2.jpg' })
+    image.src = image.src = '/marching-photos/cat3.jpg'
+  }, [imageDispatch])
   
   return useMemo(() => ({
     camera, cameraDispatch,
