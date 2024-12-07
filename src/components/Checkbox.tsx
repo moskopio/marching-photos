@@ -26,11 +26,11 @@ export function Checkbox(props: Props): ReactElement {
     }
   },[onChange, checkboxRef, value])
     
-  const style = { background: value ? color : 'var(--bg-color-2)' }
+  const style = { background: value ? color : "var(--bg-color-2)" }
 
   return (
     <div className="checkbox" ref={checkboxRef} >
-      <div className={`checkbox-box ${value ? 'check' : ''}`} style={style} />
+      <div className={`checkbox-box ${value ? "check" : ""}`} style={style} />
       <div className="checkbox-label">{label}</div>
     </div>
   )

@@ -1,9 +1,9 @@
 import { ChangeEvent, useCallback, useContext } from "react"
 import { AppContext } from "src/state/context"
 
-type ObjLoad = (event: ChangeEvent<HTMLInputElement>) => void
+type ImgLoad = (event: ChangeEvent<HTMLInputElement>) => void
 
-export function useImgLoad(): ObjLoad {
+export function useImgLoad(): ImgLoad {
   const { imageDispatch } = useContext(AppContext)
   
   return useCallback((event: ChangeEvent<HTMLInputElement>) => {

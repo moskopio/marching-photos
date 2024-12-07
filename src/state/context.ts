@@ -28,8 +28,8 @@ export function useAppState(): AppState {
   
   useEffect(() => {
     const image = new Image()
-    image.onload = (): void => imageDispatch({ image, name: 'cat2.jpg' })
-    image.src = image.src = '/marching-photos/cat3.jpg'
+    image.onload = (): void => imageDispatch({ image, name: "cat2.jpg" })
+    image.src = image.src = "/marching-photos/cat3.jpg"
   }, [imageDispatch])
   
   return useMemo(() => ({

@@ -6,7 +6,7 @@ export interface ImageState {
 }
 
 export function createDefaultImageState(): ImageState {
-  return { name: '', image: null }
+  return { name: "", image: null }
 }
 
 export type ImageStateAction = DeepPartial<ImageState>

@@ -72,9 +72,9 @@ export function prepareUniformsValues(values: Dict<number | number[] | boolean>)
   
   valuesNames.forEach(name => {
     const value = values[name]
-    if (typeof value == 'number') {
+    if (typeof value == "number") {
       prepared[name] = [value] as number[]
-    } else if (typeof value == 'boolean') {
+    } else if (typeof value == "boolean") {
       prepared[name] = [value ? 1 : 0]
     } else {
       prepared[name] = value as number[]
@@ -85,7 +85,7 @@ export function prepareUniformsValues(values: Dict<number | number[] | boolean>)
 }
 
 function prepareName(name: string): string {
-  const noPrefix = name[0] === 'u' || name[0] === 'a' ? name.slice(1) : name
+  const noPrefix = name[0] === "u" || name[0] === "a" ? name.slice(1) : name
   const noUppercase = noPrefix[0].toLowerCase() + noPrefix.slice(1)
   return noUppercase
 }

@@ -64,11 +64,11 @@ function RadioButton(props: RadioButtonProps): ReactElement {
     return () => checkbox?.removeEventListener("mousedown", onClick)
   },[onChange, buttonRef, value, id])
   
-  const style = { background: value === id? pallette.getNextColor() : 'var(--bg-color-2)' }
+  const style = { background: value === id? pallette.getNextColor() : "var(--bg-color-2)" }
   
   return (
     <div className="radio-button" ref={buttonRef} >
-      <div className={`radio-button-box ${value === id ? 'check' : ''}`} style={style} />
+      <div className={`radio-button-box ${value === id ? "check" : ""}`} style={style} />
       <div className="radio-button-label">{label}</div>
     </div>
   )

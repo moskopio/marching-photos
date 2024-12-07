@@ -6,6 +6,7 @@ import { useRenderScene } from "./hooks/render-scene"
 import { useTouchCameraControls } from "./hooks/touch-camera-controls"
 import { useWebGLContext } from "./hooks/webgl-context"
 import "./WebGLPreview.css"
+import { useImgDrop } from "src/panels/hooks/img-drop"
 
 export function WebGLPreview(): ReactElement {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -18,6 +19,7 @@ export function WebGLPreview(): ReactElement {
   useMouseCameraControls()
   useTouchCameraControls({ canvasRef })
   useRenderScene({ gl })
+  useImgDrop()
   
   
   useLayoutEffect(() => {
@@ -38,7 +40,7 @@ export function WebGLPreview(): ReactElement {
   return (
     <canvas
       ref={canvasRef}
-      className={`webgl-canvas ${backgroundWhite ? 'light' : 'dark'}`}
+      className={`webgl-canvas ${backgroundWhite ? "light" : "dark"}`}
       width={resolution[0]}
       height={resolution[1]}
     />

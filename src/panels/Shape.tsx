@@ -108,7 +108,7 @@ function Samples(): ReactElement {
 
 function Shape(): ReactElement {
   const { settings, settingsDispatch } = useContext(AppContext)
-  const options = { 0: 'Sphere', 1: 'Torus', 2: 'Octahedron', 3: 'Box' }
+  const options = { 0: "Sphere", 1: "Torus", 2: "Octahedron", 3: "Box" }
   
   const setShape = useCallback((val: number) => {
     settingsDispatch({ shape: val })

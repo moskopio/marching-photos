@@ -31,14 +31,14 @@ export function useSliderMouseDrag(props: Props): void {
   
   useEffect(() => {
     const slider = sliderRef?.current
-    slider?.addEventListener('contextmenu', onContextMenu)
-    slider?.addEventListener('pointerdown', onPointerDown)
+    slider?.addEventListener("contextmenu", onContextMenu)
+    slider?.addEventListener("pointerdown", onPointerDown)
     
     return () => {
-      slider?.removeEventListener('contextmenu', onContextMenu)
-      slider?.removeEventListener('pointerdown', onPointerDown)
-      window.removeEventListener('pointerup', onPointerUp)
-      window.removeEventListener('pointermove', onPointerMove)
+      slider?.removeEventListener("contextmenu", onContextMenu)
+      slider?.removeEventListener("pointerdown", onPointerDown)
+      window.removeEventListener("pointerup", onPointerUp)
+      window.removeEventListener("pointermove", onPointerMove)
     }
     
     function onContextMenu(event: MouseEvent): void {
@@ -50,18 +50,18 @@ export function useSliderMouseDrag(props: Props): void {
     function onPointerDown(event: MouseEvent): void {
       event.preventDefault()
       event.stopImmediatePropagation()
-      if (event.type !== 'contextmenu' && event.button !== 2) {
+      if (event.type !== "contextmenu" && event.button !== 2) {
         updateOnMouseMove(event)
-        window.addEventListener('pointerup', onPointerUp)
-        window.addEventListener('pointermove', onPointerMove)
+        window.addEventListener("pointerup", onPointerUp)
+        window.addEventListener("pointermove", onPointerMove)
       }
     }
     
     function onPointerUp(event: MouseEvent): void {
       event.preventDefault()
       event.stopImmediatePropagation()
-      window.removeEventListener('pointerup', onPointerUp)
-      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener("pointerup", onPointerUp)
+      window.removeEventListener("pointermove", onPointerMove)
     }
     
     function onPointerMove(event: MouseEvent): void {

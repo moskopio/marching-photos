@@ -17,7 +17,7 @@ export function Colors(): ReactElement {
 
 function Coloring(): ReactElement {
   const { settings, settingsDispatch } = useContext(AppContext)
-  const options = { 0: 'Image', 1: 'Grayscale', 2: 'White', 3: 'Black' }
+  const options = { 0: "Image", 1: "Grayscale", 2: "White", 3: "Black" }
   
   const setColoring = useCallback((coloring: number) => {
     settingsDispatch({ coloring })

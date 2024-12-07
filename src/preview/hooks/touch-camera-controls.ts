@@ -18,22 +18,22 @@ export function useTouchCameraControls(args: Args): void {
   const canvas = canvasRef.current
   
   useEffect(() => {
-    canvas?.addEventListener('touchstart', onTouchStart, { passive: false })
+    canvas?.addEventListener("touchstart", onTouchStart, { passive: false })
     
     return () => {
-      canvas?.removeEventListener('touchstart',  onTouchStart)
-      canvas?.removeEventListener('touchend',    onTouchEnd)
-      canvas?.removeEventListener('touchcancel', onTouchEnd)
-      canvas?.removeEventListener('touchmove',   onTouchMove)
+      canvas?.removeEventListener("touchstart",  onTouchStart)
+      canvas?.removeEventListener("touchend",    onTouchEnd)
+      canvas?.removeEventListener("touchcancel", onTouchEnd)
+      canvas?.removeEventListener("touchmove",   onTouchMove)
     }
     
     function onTouchStart(event: TouchEvent): void {
       event.preventDefault()
       event.stopImmediatePropagation()
       
-      canvas?.addEventListener('touchend',    onTouchEnd)
-      canvas?.addEventListener('touchcancel', onTouchEnd)
-      canvas?.addEventListener('touchmove',   onTouchMove)
+      canvas?.addEventListener("touchend",    onTouchEnd)
+      canvas?.addEventListener("touchcancel", onTouchEnd)
+      canvas?.addEventListener("touchmove",   onTouchMove)
       touches.current = event.touches
       
       if (event.touches.length > 1) {
@@ -43,9 +43,9 @@ export function useTouchCameraControls(args: Args): void {
     }
     
     function onTouchEnd(): void {
-      canvas?.removeEventListener('touchend',    onTouchEnd)
-      canvas?.removeEventListener('touchcancel', onTouchEnd)
-      canvas?.removeEventListener('touchmove',   onTouchMove)
+      canvas?.removeEventListener("touchend",    onTouchEnd)
+      canvas?.removeEventListener("touchcancel", onTouchEnd)
+      canvas?.removeEventListener("touchmove",   onTouchMove)
       shift.current = false
     }
     
@@ -70,10 +70,10 @@ export function useTouchCameraControls(args: Args): void {
           
         if (Math.abs(firstTouchesDistance - lastTouchesDistance) > PINCH_THRESHOLD) {
           const delta = (firstTouchesDistance - lastTouchesDistance) * PINCH_SENSITIVITY
-          cameraDispatch({ type: 'update', dolly: delta } )
+          cameraDispatch({ type: "update", dolly: delta } )
         }
       } else {
-        cameraDispatch({ type: 'update', rotation: { theta: -yDelta, phi: xDelta } } )
+        cameraDispatch({ type: "update", rotation: { theta: -yDelta, phi: xDelta } } )
       }
       touches.current = event.touches
     }

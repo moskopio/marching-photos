@@ -24,10 +24,10 @@ export function useSliderMouseWheel(props: Props): void {
   
   useEffect(() => {
     const slider = sliderRef?.current
-    slider?.addEventListener('wheel', onWheel, { passive: false })
+    slider?.addEventListener("wheel", onWheel, { passive: false })
     
     return () => {
-      slider?.removeEventListener('wheel', onWheel)
+      slider?.removeEventListener("wheel", onWheel)
     }
 
     function onWheel(event: WheelEvent): void {
