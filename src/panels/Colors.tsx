@@ -3,10 +3,11 @@ import { Panel } from "src/components/Panel"
 import { AppContext } from "src/state/context"
 import { Divider } from "src/components/Divider"
 import { Radio } from "src/components/Radio"
+import { PASTEL_COLORS } from "src/utils/pallette"
 
 export function Colors(): ReactElement {
   return (
-    <Panel label={"Colors"} icon="color">
+    <Panel label={"Colors"} icon="color" color={PASTEL_COLORS.lynch} >
     <Coloring />
     </Panel>
   )

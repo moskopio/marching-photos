@@ -3,10 +3,11 @@ import { Panel } from "src/components/Panel"
 import { useImgLoad } from "src/panels/hooks/img-load"
 import { AppContext } from "src/state/context"
 import "./Image.css"
+import { PASTEL_COLORS } from "src/utils/pallette"
 
 export function ImagePanel(): ReactElement {
   return (
-    <Panel label="Image" icon="camera">
+    <Panel label="Image" icon="camera" color={PASTEL_COLORS.mojo} >
     <ImagePreview />
     </Panel>
   )

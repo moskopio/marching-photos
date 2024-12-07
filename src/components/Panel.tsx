@@ -6,6 +6,7 @@ interface Props {
   children: ReactElement | ReactElement[] | string
   icon:     string
   label:    string
+  color:    string
 }
 
 export function Panel(props: Props): ReactElement {
@@ -22,7 +23,8 @@ interface ClickableProps extends Props {
 }
 
 function ExtendedPanel(props: ClickableProps): ReactElement {
-  const { onClick, children, icon, label } = props
+  const {color, onClick, children, icon, label } = props
+  const style = { background: color }
   
   return (
     <div className="panel">
@@ -30,7 +32,7 @@ function ExtendedPanel(props: ClickableProps): ReactElement {
         <div className="panel-bar" onClick={onClick}>
           <div className="panel-bar-title">
             <PanelIcon icon={icon} />
-            <div className="panel-top-divider" />
+            <div className="panel-top-divider" style={style} />
             <div className="panel-top-label">{label}</div>
           </div>
           <div className="panel-bar-close" onClick={onClick}/>
@@ -42,12 +44,13 @@ function ExtendedPanel(props: ClickableProps): ReactElement {
 }
 
 function CollapsedPanel(props: ClickableProps): ReactElement {
-  const { onClick, label, icon } = props
+  const { color, onClick, label, icon } = props
+  const style = { background: color }
   
   return (
     <div className="panel-collapsed" onClick={onClick}>
       <PanelIcon icon={icon} />
-      <div className="panel-top-divider" /> 
+      <div className="panel-top-divider" style={style}/>
       <div className="panel-top-label">{label}</div>
     </div>
   )

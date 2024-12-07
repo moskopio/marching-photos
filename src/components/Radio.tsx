@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useRef } from "react"
-import { createPallette } from "src/utils/color"
+import { createPallette } from "src/utils/pallette"
 import "./Radio.css"
 
 interface Options {

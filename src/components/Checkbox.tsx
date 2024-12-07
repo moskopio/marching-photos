@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useMemo, useRef } from "react"
-import { PASTEL_COLORS } from "src/utils/color"
+import { PASTEL_COLORS } from "src/utils/pallette"
 import "./Checkbox.css"
 
 interface Props {

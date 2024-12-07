@@ -1,5 +1,5 @@
 .panel-collapsed {
-  width: 120px;
+  width: 100px;
   height: 32px;
   outline: 2px solid var(--shadow-color);
   box-shadow: 
@@ -20,19 +20,20 @@
 
 .panel-top-label {
   color: var(--highlight-color);
-  text-transform: uppercase;
   font-family: system-ui;
-  font-weight: bold;
   font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 .panel-top-divider {
+  background: red;
+  box-shadow: 1px 5px 10px var(--shadow-color);
   color: var(--highlight-color);
-  border: 2px solid red;
-  outline: 1px;
   height: 16px;
   margin-right: 5px;
-  box-shadow: 1px 5px 10px var(--shadow-color);
+  outline: 1px;
+  width: 5px;
 }
 
 .panel {
@@ -48,12 +49,6 @@
    var(--bg-color-3) 10%,
    var(--bg-color-2) 90%,
    var(--bg-color-1) 100%);
-}
-
-.panel-wrapper {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 }
 
 .panel-bar {
@@ -93,7 +88,10 @@
   flex-direction: column;
   padding: 5px;
   outline: 2px solid var(--shadow-color);
-  box-shadow: 1px 1px 2px inset var(--dim-highlight-color), -1px -1px 1px inset var(--shadow-color), 1px 5px 10px var(--shadow-color);
+  box-shadow: 
+    1px 1px 2px inset var(--dim-highlight-color), 
+    -1px -1px 1px inset var(--shadow-color), 
+    1px 5px 10px var(--shadow-color);
   border-radius: 10px;
   gap: 2px;
 }

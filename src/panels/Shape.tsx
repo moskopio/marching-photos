@@ -4,11 +4,11 @@ import { Panel } from "src/components/Panel"
 import { Radio } from "src/components/Radio"
 import { Slider } from "src/components/Slider"
 import { AppContext } from "src/state/context"
-import { createPallette } from "src/utils/color"
+import { createPallette, PASTEL_COLORS } from "src/utils/pallette"
 
 export function ShapePanel(): ReactElement {
   return (
-    <Panel label="Shape" icon="shape">
+    <Panel label="Shape" icon="shape" color={PASTEL_COLORS.givry} >
     <Position />
     <Samples />
     <Shape />
@@ -84,8 +84,8 @@ function Samples(): ReactElement {
       <Divider label="Samples" />
       <Slider
         label={`Samples: ${Math.floor(settings.samples[0])}`}
-        min={6}
-        max={256}
+        min={4}
+        max={512}
         onChange={setXSamples}
         value={settings.samples[0]}
         defaultValue={100}

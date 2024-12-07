@@ -1,5 +1,5 @@
 import { ReactElement, useMemo, useRef } from "react"
-import { PASTEL_COLORS } from "src/utils/color"
+import { PASTEL_COLORS } from "src/utils/pallette"
 import { getPercentage } from "src/utils/util"
 import { useSliderMouseDrag } from "./hooks/slider-mouse-drag"
 import { useSliderMouseWheel } from "./hooks/slider-mouse-wheel"
