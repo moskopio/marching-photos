@@ -11,17 +11,14 @@ export function WebGLPreview(): ReactElement {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [resolution, setResolution] = useState<Resolution>([window.innerWidth, window.innerHeight])
   const { cameraDispatch, settings } = useContext(AppContext)
+  const { advanced } = settings
+  const { backgroundWhite } = advanced
   
   const gl = useWebGLContext({ canvasRef })
   useMouseCameraControls()
   useTouchCameraControls({ canvasRef })
   useRenderScene({ gl })
   
-  const canvasStyle = {
-    background: settings.advanced.backgroundWhite 
-      ? "var(--light-canvas)"
-      : "var(--dark-canvas)"
-  }
   
   useLayoutEffect(() => {
     window.addEventListener("resize", updateResolution)
@@ -41,8 +38,7 @@ export function WebGLPreview(): ReactElement {
   return (
     <canvas
       ref={canvasRef}
-      className="webgl-canvas"
-      style={canvasStyle}
+      className={`webgl-canvas ${backgroundWhite ? 'light' : 'dark'}`}
       width={resolution[0]}
       height={resolution[1]}
     />

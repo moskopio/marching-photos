@@ -1,7 +1,7 @@
 #define STEP_BIAS 0.15
 #define AA 1.0
 #define AA_STEP 0.001
-#define FOV 0.4
+#define FOV 0.25
 
 #define MIN_SIZE     0.0001
 #define MIN_ALPHA    0.1

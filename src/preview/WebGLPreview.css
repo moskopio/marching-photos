@@ -1,10 +1,32 @@
+@property --canvas-color-1 {
+  syntax: '<color>';
+  initial-value: #2a2e36;
+  inherits: false;
+}
+
+@property --canvas-color-2 {
+  syntax: '<color>';
+  initial-value: #000000;
+  inherits: false;
+}
+
 .webgl-canvas {
-  transition: all 0.5s ease-in-out;
   width: 100%;
   height: 100%;
   position: fixed;
   left: 0;
   top: 0;
   z-index: -10;
-  background: var(--dark-canvas);
+  background: radial-gradient(var(--canvas-color-1), var(--canvas-color-2));
+  transition: --canvas-color-1 1s, --canvas-color-2 1s;
+}
+
+.webgl-canvas.light {
+  --canvas-color-1: #white;
+  --canvas-color-2: #667085;
+}
+
+.webgl-canvas.dark {
+  --canvas-color-1: #2a2e36;
+  --canvas-color-2: #000000;
 }

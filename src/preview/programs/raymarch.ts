@@ -27,6 +27,7 @@ export function createRaymarchProgram(gl: WebGL2RenderingContext): Program | nul
     0.0, 1.0, 1.0, 0.0, 1.0, 1.0  // second triangle
    ])
    updateAttributes({ gl, attributes, values: { position } })
+   const texture = gl.createTexture()
   
   return { cleanup, draw, updateCamera, updateImage, updateSettings }
   
@@ -45,37 +46,33 @@ export function createRaymarchProgram(gl: WebGL2RenderingContext): Program | nul
     const { rotation, aspectRatio, dolly } = camera
     const { theta, phi } = rotation
     
-    gl.useProgram(program!)
-    
     const values = prepareUniformsValues({
       aspectRatio,
       dolly,
       rotation: [degToRad(theta), degToRad(phi)],
     })
+    gl.useProgram(program!)
     updateUniforms({ gl, uniforms, values })
   }
   
   function updateImage(image: HTMLImageElement): void {
-    image.onload = (): void => {
-      const texture = gl.createTexture()
-      gl.bindTexture(gl.TEXTURE_2D, texture)
-      
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
-      updateUniforms({ gl, uniforms, values: { imgAspectRatio: [image.width / image.height] } })
-    }
+    gl.useProgram(program!)
+    gl.bindTexture(gl.TEXTURE_2D, texture)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST)
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
+    updateUniforms({ gl, uniforms, values: { imgAspectRatio: [image.width / image.height] } })
   }
   
   function updateSettings(settings: Settings): void {
     const { advanced, ...rest } = settings
     
     const flags = buildFlags(advanced)
+    const values = prepareUniformsValues({ flags, ...rest })
     
     gl.useProgram(program!)
-    const values = prepareUniformsValues({ flags, ...rest })
     updateUniforms({ gl, uniforms, values })
   }
 }

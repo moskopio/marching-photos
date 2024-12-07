@@ -18,7 +18,7 @@ export function createDefaultCamera(): Camera {
   return {
     aspectRatio: displayWidth / displayHeight,
     rotation:    { theta: 0, phi: 0 },
-    dolly:       0,
+    dolly:       0.3,
   }
 }
 

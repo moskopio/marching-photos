@@ -70,5 +70,4 @@ function PanelIcon(props: PanelIconProps): ReactElement {
     case "shape":    return <IconShape />
     default:         return <IconCamera />
   }
-  
 }

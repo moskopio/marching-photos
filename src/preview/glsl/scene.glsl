@@ -36,7 +36,7 @@ Result sampleElement(in vec3 ray, in vec2 st, in vec2 domainSize) {
   distance = mix(distance, octa, float(uShape == SHAPE_OCTA));
   distance = mix(distance, box,  float(uShape == SHAPE_BOX));
   
-  return Result(texture, size, distance);;
+  return Result(texture, size, distance);
 }
 
 Result repeated(in vec3 ray, in vec2 samples) {
