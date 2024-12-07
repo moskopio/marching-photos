@@ -6,13 +6,12 @@ import { Slider } from "src/components/Slider"
 import { AppContext } from "src/state/context"
 import { createPallette } from "src/utils/color"
 
-export function SettingsPanel(): ReactElement {
+export function ShapePanel(): ReactElement {
   return (
-    <Panel label="Settings" icon="settings">
+    <Panel label="Shape" icon="shape">
     <Position />
     <Samples />
     <Shape />
-    <Coloring />
     </Panel>
   )
 }
@@ -123,29 +122,6 @@ function Shape(): ReactElement {
     <div className="panel-section">
       <Divider label="Shape" />
       <Radio options={options} onChange={setShape} value={settings.shape} />
-    </div>
-  )
-}
-
-function Coloring(): ReactElement {
-  const { settings, settingsDispatch } = useContext(AppContext)
-  
-  const setColoring = useCallback((val: number) => {
-    settingsDispatch({ type: "set", coloring: val })
-  }, [settingsDispatch])
-  
-  const options = {
-    0: 'Shaded',
-    1: 'Simple',
-    2: 'Grayscale',
-    3: 'White',
-    4: 'Black'
-  }
-  
-  return (
-    <div className="panel-section">
-      <Divider label="Coloring" />
-      <Radio options={options} onChange={setColoring} value={settings.coloring} />
     </div>
   )
 }

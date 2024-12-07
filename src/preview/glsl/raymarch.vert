@@ -1,8 +1,6 @@
 #version 300 es
 
 in vec2 aPosition;
-in vec2 aTexCoord;
-
 out vec2 vPos;
 
 void main() {

@@ -2,14 +2,11 @@ import { ReactElement, useCallback, useContext, useRef } from "react"
 import { Panel } from "src/components/Panel"
 import { useImgLoad } from "src/panels/hooks/img-load"
 import { AppContext } from "src/state/context"
-import "./ImagePanel.css"
+import "./Image.css"
 
 export function ImagePanel(): ReactElement {
-  const { image } = useContext(AppContext)
-  const label = image.name
-  
   return (
-    <Panel label={label} icon="camera">
+    <Panel label="Image" icon="camera">
     <ImagePreview />
     </Panel>
   )

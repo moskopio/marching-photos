@@ -1,5 +1,5 @@
 import { ReactElement, useCallback, useState } from "react"
-import { IconCamera, IconFile, IconInfo, IconLight, IconSettings } from "./Icon"
+import { IconCamera, IconColor, IconFile, IconInfo, IconLight, IconSettings, IconShape } from "./Icon"
 import "./Panel.css"
 
 interface Props {
@@ -12,9 +12,9 @@ export function Panel(props: Props): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false)
   const onClick = useCallback(() => setIsExpanded(!isExpanded), [isExpanded, setIsExpanded])
   
-  return isExpanded 
+  return isExpanded
     ? <ExtendedPanel onClick={onClick} {...props} />
-    : <PanelIcon onClick={onClick} {...props} />
+    : <CollapsedPanel onClick={onClick} {...props} />
 }
 
 interface ClickableProps extends Props {
@@ -22,14 +22,18 @@ interface ClickableProps extends Props {
 }
 
 function ExtendedPanel(props: ClickableProps): ReactElement {
-  const { onClick, children, label } = props
+  const { onClick, children, icon, label } = props
   
   return (
     <div className="panel">
       <div className="panel-content">
         <div className="panel-bar" onClick={onClick}>
-          <div className="panel-label">{label}</div>
-          <div className="panel-close" onClick={onClick}/>
+          <div className="panel-bar-title">
+            <PanelIcon icon={icon} />
+            <div className="panel-top-divider" />
+            <div className="panel-top-label">{label}</div>
+          </div>
+          <div className="panel-bar-close" onClick={onClick}/>
         </div>
         {children}
       </div>
@@ -37,16 +41,35 @@ function ExtendedPanel(props: ClickableProps): ReactElement {
   )
 }
 
-function PanelIcon(props: ClickableProps): ReactElement {
-  const { icon, onClick } = props
+function CollapsedPanel(props: ClickableProps): ReactElement {
+  const { onClick, label, icon } = props
+  
+  return (
+    <div className="panel-collapsed" onClick={onClick}>
+      <PanelIcon icon={icon} />
+      <div className="panel-top-divider" /> 
+      <div className="panel-top-label">{label}</div>
+    </div>
+  )
+}
+
+
+interface PanelIconProps {
+  icon: string
+}
+
+function PanelIcon(props: PanelIconProps): ReactElement {
+  const { icon } = props
   
   switch (icon) {
-    case "camera":   return <IconCamera onClick={onClick} />
-    case "file"  :   return <IconFile onClick={onClick} />
-    case "info"  :   return <IconInfo onClick={onClick} />
-    case "light" :   return <IconLight onClick={onClick} />
-    case "settings": return <IconSettings onClick={onClick} />
-    default:         return <IconInfo onClick={onClick} />
+    case "camera":   return <IconCamera />
+    case "file"  :   return <IconFile />
+    case "info"  :   return <IconInfo />
+    case "light" :   return <IconLight />
+    case "settings": return <IconSettings />
+    case "color":    return <IconColor />
+    case "shape":    return <IconShape />
+    default:         return <IconInfo />
   }
   
 }

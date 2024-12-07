@@ -21,8 +21,6 @@
 
 .radio-button-box.check {
   outline: 2px solid var(--shadow-color);
-  background: var(--bg-color-1);
-  background: linear-gradient(0deg, var(--bg-color-1) 50%, var(--bg-color-2) 100%);
   box-shadow: 1px 1px 2px inset var(--shadow-color), 
   -1px -1px 2px inset var(--highlight-color), 1px 5px 10px var(--shadow-color);
 }

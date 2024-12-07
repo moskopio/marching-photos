@@ -1,3 +1,7 @@
+#define BOX_SCALE 0.8
+#define TORUS_HOLE 0.4
+#define TORUS_OUTER 0.3
+
 float random(in float seed) {
   return fract(sin(seed * 65.4321) * 1234.5678);
 }
@@ -9,20 +13,19 @@ vec4 sampleSphere(in vec3 ray, in vec2 st, in vec2 size) {
   float sphereSize = 0.0001 + averange * scale;
   
   float push = uPush * averange;
+  vec3 position = vec3(0, 0, -push);
   
-  float sphere = sdSphere(ray, vec3(0, 0, -push), sphereSize);
-  float torus = sdTorus(ray, vec3(0,0,-push), vec2(sphereSize * 0.5, sphereSize * 0.3));
-  float octa = sdOctahedron(ray, vec3(0,0,-push), sphereSize);
-  float box = sdBox(ray, vec3(0,0, -push), vec3(sphereSize));
+  float sphere = sdSphere(ray, position, sphereSize);
+  float torus = sdTorus(ray, position, vec2(sphereSize * TORUS_HOLE, sphereSize * TORUS_OUTER));
+  float octa = sdOctahedron(ray, position, sphereSize);
+  // Boxes glitch down when full size, so they need to be scaled down
+  float box = sdBox(ray, position, vec3(sphereSize * BOX_SCALE));
   
   float distance = mix(sphere, torus, float(uShape == 1.0));
   distance = mix(distance, octa, float(uShape == 2.0));
   distance = mix(distance, box,  float(uShape == 3.0));
   
-  vec3 color = mix(texture.rgb, vec3(averange), float(uColoring == 2.0));
-  color = mix(color, vec3(1), float(uColoring == 3.0));
-  
-  return vec4(color, distance);
+  return vec4(texture.rgb, distance);
 }
 
 vec4 repeated(in vec3 ray, in vec2 samples) {

@@ -2,7 +2,7 @@
 #define SPECULAR_COLOR vec3(1.0)
 #define SPECULAR_ALPHA 20.0
 
-#define AMBIENT_COLOR vec3(0.0)
+#define AMBIENT_COLOR vec3(0.1)
 #define FRESNEL_COLOR vec3(1.0)
 #define FRESNEL_ALPHA 0.5
 

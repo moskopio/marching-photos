@@ -1,4 +1,5 @@
 import { ReactElement, useEffect, useRef } from "react"
+import { createPallette } from "src/utils/color"
 import "./Radio.css"
 
 interface Options {
@@ -35,7 +36,9 @@ interface RadioButtonProps {
 function RadioButton(props: RadioButtonProps): ReactElement {
   const { id, label, value, onChange } = props
   const buttonRef = useRef<HTMLDivElement | null>(null)
+  const pallette = createPallette(id)
   
+  // Looks overcomplicated, but it is necessary (possibly?), to avoid click delays
   useEffect(() => {
     const checkbox = buttonRef.current
     const onClick = () => onChange(id)
@@ -44,10 +47,11 @@ function RadioButton(props: RadioButtonProps): ReactElement {
     return () => checkbox?.removeEventListener("mousedown", onClick)
   },[onChange, buttonRef, value, id])
   
-
+  const style = { background: value === id? pallette.getNextColor() : 'var(--bg-color-2)' }
+  
   return (
     <div className="radio-button" ref={buttonRef} >
-      <div className={`radio-button-box ${value === id ? 'check' : ''}`}/>
+      <div className={`radio-button-box ${value === id ? 'check' : ''}`} style={style} />
       <div className="radio-button-label">{label}</div>
     </div>
   )

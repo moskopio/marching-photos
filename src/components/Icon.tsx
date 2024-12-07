@@ -1,54 +1,34 @@
 import { ReactElement } from "react"
 import "./Icon.css"
 
-interface Props {
-  onClick?: () => void
+export function IconCamera(): ReactElement {
+  return <div className="icon icon-camera" />
 }
 
-export function IconCamera(props: Props): ReactElement {
-  return (
-    <div className="icon-wrapper"> 
-      <div className="icon icon-camera" onClick={props?.onClick} /> 
-    </div>
-  )
+export function IconInfo(): ReactElement {
+  return <div className="icon icon-info" />
 }
 
-export function IconInfo(props: Props): ReactElement {
-  return (
-    <div className="icon-wrapper"> 
-      <div className="icon icon-info" onClick={props?.onClick} /> 
-    </div>
-  )
+export function IconSettings(): ReactElement {
+  return <div className="icon icon-settings" />
 }
 
-export function IconSettings(props: Props): ReactElement {
-  return (
-    <div className="icon-wrapper"> 
-      <div className="icon icon-settings" onClick={props?.onClick} /> 
-    </div>
-  )
+export function IconFile(): ReactElement {
+  return <div className="icon icon-file" />
 }
 
-export function IconFile(props: Props): ReactElement {
-  return (
-    <div className="icon-wrapper"> 
-      <div className="icon icon-file" onClick={props?.onClick} /> 
-    </div>
-  )
+export function IconLight(): ReactElement {
+  return <div className="icon icon-light" />
 }
 
-export function IconLight(props: Props): ReactElement {
-  return (
-    <div className="icon-wrapper"> 
-      <div className="icon icon-light" onClick={props?.onClick} /> 
-    </div>
-  )
+export function IconCross(): ReactElement {
+  return <div className="icon icon-cross" />
 }
 
-export function IconCross(props: Props): ReactElement {
-  return (
-    <div className="icon-wrapper"> 
-      <div className="icon icon-cross" onClick={props?.onClick} /> 
-    </div>
-  )
+export function IconColor(): ReactElement {
+  return <div className="icon icon-color" />
+}
+
+export function IconShape(): ReactElement {
+  return  <div className="icon icon-shape" />
 }
