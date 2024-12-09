@@ -85,7 +85,6 @@ function buildFlags(advanced: AdvancedSettings): number {
   flags |= advanced.scalingReversed ? flags | 4  : flags
   flags |= advanced.colorReversed   ? flags | 8  : flags
   flags |= advanced.pushDisabled    ? flags | 16 : flags
-  flags |= advanced.noiseEnabled    ? flags | 32 : flags
   
   return flags
 }

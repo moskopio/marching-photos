@@ -15,7 +15,6 @@ export interface AdvancedSettings {
   scalingReversed: boolean
   scalingDisabled: boolean
   pushDisabled:    boolean
-  noiseEnabled:    boolean
   backgroundWhite: boolean
 }
 
@@ -45,7 +44,6 @@ export function createDefaultSettings(): Settings {
       scalingReversed: false,
       scalingDisabled: false,
       pushDisabled:    false,
-      noiseEnabled:    false,
       backgroundWhite: false,
     }
   }

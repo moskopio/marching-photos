@@ -138,10 +138,6 @@ function Settings(): ReactElement {
     settingsDispatch({ advanced: { pushDisabled } })
   }, [settingsDispatch])
   
-  const setNoiseEnabled = useCallback((noiseEnabled: boolean) => {
-    settingsDispatch({ advanced: { noiseEnabled } })
-  }, [settingsDispatch])
-  
   
   return (
     <div className="panel-section">
@@ -162,12 +158,6 @@ function Settings(): ReactElement {
         label="Disabled push"
         onChange={setPushDisabled}
         value={settings.advanced.pushDisabled}
-      />
-      <Checkbox
-        color={pallette.getNextColor()}
-        label="Random noise"
-        onChange={setNoiseEnabled}
-        value={settings.advanced.noiseEnabled}
       />
     </div>
   )

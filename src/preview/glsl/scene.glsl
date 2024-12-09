@@ -10,21 +10,6 @@
 
 #define IGNORED_SIZE 0.01
 
-float random(in float seed) {
-  return fract(sin(seed * 145.3456) * 965.4221);
-}
-
-float calculateNoise(in vec3 ray, in vec2 st, in vec2 samples, in float scale) {
-  float cellNumber = st.x * samples.x + st.y * samples.x * samples.y;
-  float cellRandom = random(cellNumber); 
-   
-  float rotation = sign(0.5 - cellRandom) - cellRandom * (uTime / 2000.0);
-  ray.xz *= rot2D(rotation);
-  ray.yz *= rot2D(rotation);
-
-  return sin(12.0 * ray.x) * sin(13.0 * ray.y);
-}
-
 Result sampleElement(in vec3 ray, in vec2 st, in vec2 domainSize, in vec2 samples, in vec3 fullRay) {
   vec4 texture = texture(uImage, st);
   float sampleAverange = (texture.x + texture.y + texture.z) / 3.0;
@@ -48,10 +33,6 @@ Result sampleElement(in vec3 ray, in vec2 st, in vec2 domainSize, in vec2 sample
   float distance = mix(sphere, torus, uShape == SHAPE_TORUS);
   distance = mix(distance, octa, uShape == SHAPE_OCTA);
   distance = mix(distance, box,  uShape == SHAPE_BOX);
-  
-  float noise = calculateNoise(fullRay, st, samples, scale);
-  noise = mix(0.0, noise, bool(uFlags & FLAG_NOISE_ENABLED));
-  distance += noise * scale * averange * 0.2;
   
   return Result(texture, size, distance);
 }
