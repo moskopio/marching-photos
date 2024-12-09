@@ -35,7 +35,7 @@ enum Coloring {
 
 export function createDefaultSettings(): Settings {
   return {
-    samples:    [100, 100],
+    samples:    [64, 64],
     push:       0.3,
     shape:      Shape.Sphere,
     coloring:   Coloring.Shaded,

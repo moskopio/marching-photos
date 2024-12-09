@@ -2,7 +2,6 @@ import { ReactElement, useMemo, useRef } from "react"
 import { PASTEL_COLORS } from "src/utils/pallette"
 import { getPercentage } from "src/utils/util"
 import { useSliderMouseDrag } from "./hooks/slider-mouse-drag"
-import { useSliderMouseWheel } from "./hooks/slider-mouse-wheel"
 import "./Slider.css"
 
 interface Props {
@@ -21,7 +20,6 @@ export function Slider(props: Props): ReactElement {
   const sliderRef = useRef<HTMLDivElement | null>(null)
   
   useSliderMouseDrag({ sliderRef, min, max, onChange, defaultValue })
-  useSliderMouseWheel({ sliderRef, min, max, onChange, value })
   
   const handleStyle = useMemo(() => ({
       width: `${getPercentage(value, min, max)}%`,

@@ -29,8 +29,8 @@ Result raymarch(vec3 origin, vec3 direction) {
     element = Result(closestElement.color, closestElement.size, totalDistance);
     
     if (abs(closestElement.distance) <= MIN_DISTANCE) break;
-    if (abs(totalDistance) >= MAX_DISTANCE) break;
     if (abs(closestElement.distance) >= MAX_DISTANCE) break;
+    if (abs(totalDistance) >= MAX_DISTANCE) break;
   }
   
   return element;
@@ -59,18 +59,12 @@ vec4 calculateSceneColor(in vec3 origin, in vec3 direction) {
   color = mix(color, vec3(0.0), float(colorSum < MIN_COLOR));
   
   // hidding (naivly) elements too small or not visible
-  float alpha = mix(element.color.a, 0.0, float(element.distance >= MAX_DISTANCE));
-  alpha = mix(alpha, 0.0, float(element.color.a <= MIN_ALPHA));
-  alpha = mix(alpha, 0.0, float(element.size < MIN_SIZE));
-  alpha = mix(alpha, 0.0, float(colorSum < MIN_COLOR));
+  float alpha = mix(element.color.a, 0.0, element.distance >= MAX_DISTANCE);
+  alpha = mix(alpha, 0.0, element.color.a <= MIN_ALPHA);
+  alpha = mix(alpha, 0.0, element.size < MIN_SIZE);
+  alpha = mix(alpha, 0.0, colorSum < MIN_COLOR);
   
   return vec4(color, alpha);
-}
-
-mat2 rot2D(in float angle) {
-  float s = sin(angle);
-  float c = cos(angle);
-  return mat2(c, -s, s, c);
 }
 
 void main() {

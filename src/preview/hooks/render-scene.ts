@@ -35,12 +35,11 @@ export function useRenderScene(props: Props): void {
   useEffect(() => {
     const time = Date.now()
     draw(time)
+    
+    function draw(time: number): void {
+      program.current?.draw(time)
+      requestId.current = requestAnimationFrame(draw)
+    }
     return () => { requestId.current && cancelAnimationFrame(requestId.current) }
-  }, [draw])
-  
-  function draw(time: number): void {
-  
-    program.current?.draw(time)
-    requestId.current = requestAnimationFrame(draw)
-  }
+  }, [])
 }

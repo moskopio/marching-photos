@@ -13,18 +13,18 @@
 Result sampleElement(in vec3 ray, in vec2 st, in vec2 domainSize) {
   vec4 texture = texture(uImage, st);
   float sampleAverange = (texture.x + texture.y + texture.z) / 3.0;
-  
-  float averange = bool(uFlags & FLAG_SCALING_REVERSE) ? (1.0 - sampleAverange) : sampleAverange;
+  float averange = mix(sampleAverange, 1.0 - sampleAverange, bool(uFlags & FLAG_SCALING_REVERSE));
   
   float scale = min(domainSize.x, domainSize.y) * DOMAIN_SCALE;
+  float noScaling = float(bool(uFlags & FLAG_SCALING_DISABLED) && sampleAverange > IGNORED_SIZE);
   float size = averange * scale;
-  size = bool(uFlags & FLAG_SCALING_DISABLED) && sampleAverange > IGNORED_SIZE ? scale : size;
+  size = mix(size, scale, noScaling);
   
   float push = uPush * averange;
-  push = bool(uFlags & FLAG_PUSH_REVERSE) ? -push: push;
-  push = bool(uFlags & FLAG_PUSH_DISABLED) ? 0.0: push;
+  push = mix(push, -push, bool(uFlags & FLAG_PUSH_REVERSE));
+  push = mix(push, 0.0,   bool(uFlags & FLAG_PUSH_DISABLED));
   
-  vec3 position = vec3(0, 0, -push);
+  vec3 position = vec3(0.0, 0.0, -push);
   
   float sphere = sampleSphere(ray, position, size);
   float torus = sampleTorus(ray, position, vec2(size * TORUS_HOLE, size * TORUS_OUTER));
@@ -32,9 +32,9 @@ Result sampleElement(in vec3 ray, in vec2 st, in vec2 domainSize) {
   // Boxes glitch down when full size, so they need to be scaled down
   float box = sampleBox(ray, position, vec3(size * BOX_SCALE));
   
-  float distance = mix(sphere, torus, float(uShape == SHAPE_TORUS));
-  distance = mix(distance, octa, float(uShape == SHAPE_OCTA));
-  distance = mix(distance, box,  float(uShape == SHAPE_BOX));
+  float distance = mix(sphere, torus, uShape == SHAPE_TORUS);
+  distance = mix(distance, octa, uShape == SHAPE_OCTA);
+  distance = mix(distance, box,  uShape == SHAPE_BOX);
   
   return Result(texture, size, distance);
 }
@@ -49,7 +49,7 @@ Result repeated(in vec3 ray, in vec2 samples) {
   repetition.y = ray.y - domainSize.y * clamp(round(ray.y / domainSize.y), -constrains.y, constrains.y);
   
   vec2 st = ray.xy;
-  // fixing issues with st not matching samples count and resulting in cutting them in parts
+  // fixing issues with st division not matching samples count and resulting in cutting samples in parts
   st.x = (st.x + uImgAspectRatio) / 2.0;
   st.x = round((st.x) * samples.x) / samples.x;
   st.x /= uImgAspectRatio;
@@ -62,7 +62,7 @@ Result repeated(in vec3 ray, in vec2 samples) {
 
 Result sampleScene(in vec3 ray) {
   vec2 samples = uSamples;
-  // adjusting samples to match aspect ratio, to avoid cutting them in half
+  // adjusting samples to match aspect ratio to avoid cutting them in parts
   samples.x /= uImgAspectRatio;
   return repeated(ray, samples);
 }

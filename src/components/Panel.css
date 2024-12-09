@@ -19,9 +19,6 @@
 }
 
 .panel-top-label {
-  color: var(--highlight-color);
-  font-family: system-ui;
-  font-size: 12px;
   font-weight: bold;
   text-transform: uppercase;
 }

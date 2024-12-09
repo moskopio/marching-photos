@@ -29,7 +29,5 @@
   text-align: center;
   pointer-events: none;
   user-select: none;
-  color: var(--highlight-color);
-  font-family: system-ui;
   text-shadow: var(--text-shadow);
 }

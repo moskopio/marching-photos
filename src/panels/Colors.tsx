@@ -6,7 +6,7 @@ import { Radio } from "src/components/Radio"
 import { createPallette, PASTEL_COLORS } from "src/utils/pallette"
 import { Checkbox } from "src/components/Checkbox"
 
-export function Colors(): ReactElement {
+export function ColorsPanel(): ReactElement {
   return (
     <Panel label={"Colors"} icon="color" color={PASTEL_COLORS.lynch} >
       <Coloring />

@@ -38,3 +38,10 @@ struct Result {
   float size;
   float distance;
 };
+
+mat2 rot2D(in float angle) {
+  float s = sin(angle);
+  float c = cos(angle);
+  return mat2(c, -s, s, c);
+}
+

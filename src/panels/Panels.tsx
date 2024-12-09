@@ -1,8 +1,8 @@
 import { ReactElement, useEffect, useMemo, useRef, useState } from "react"
 import { constrain } from "src/utils/util"
-import { Colors } from "./Colors"
+import { ColorsPanel } from "./Colors"
 import { ImagePanel } from "./Image"
-import { ShapePanel } from "./Shape"
+import { SamplesPanel } from "./Samples"
 import "./Panels.css"
 
 const MARGIN = 8
@@ -50,8 +50,8 @@ export function Panels(): ReactElement {
   return (
     <div className="panels" ref={panelsRef} style={style}>
       <ImagePanel />
-      <ShapePanel />
-      <Colors />
+      <SamplesPanel />
+      <ColorsPanel />
     </div>
   )
 }

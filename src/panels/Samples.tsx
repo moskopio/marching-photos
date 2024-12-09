@@ -7,9 +7,9 @@ import { Slider } from "src/components/Slider"
 import { AppContext } from "src/state/context"
 import { createPallette, PASTEL_COLORS } from "src/utils/pallette"
 
-export function ShapePanel(): ReactElement {
+export function SamplesPanel(): ReactElement {
   return (
-    <Panel label="Shape" icon="shape" color={PASTEL_COLORS.givry} >
+    <Panel label="Samples" icon="shape" color={PASTEL_COLORS.givry} >
       <Position />
       <Samples />
       <Shape />
@@ -87,7 +87,7 @@ function Samples(): ReactElement {
       <Slider
         label={`Samples: ${Math.floor(settings.samples[0])}`}
         min={4}
-        max={512}
+        max={1024}
         onChange={setXSamples}
         value={settings.samples[0]}
         defaultValue={100}
