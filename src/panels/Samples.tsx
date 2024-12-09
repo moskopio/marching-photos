@@ -147,25 +147,25 @@ function Settings(): ReactElement {
     <div className="panel-section">
       <Checkbox
         color={pallette.getNextColor()}
-        label="Reverse scaling"
+        label="Reversed scaling"
         onChange={setScalingReversed}
         value={settings.advanced.scalingReversed}
       />
       <Checkbox
         color={pallette.getNextColor()}
-        label="Disable scaling"
+        label="Disabled scaling"
         onChange={setScalingDisabled}
         value={settings.advanced.scalingDisabled}
       />
       <Checkbox
         color={pallette.getNextColor()}
-        label="Disable push"
+        label="Disabled push"
         onChange={setPushDisabled}
         value={settings.advanced.pushDisabled}
       />
       <Checkbox
         color={pallette.getNextColor()}
-        label="Enable random noise"
+        label="Random noise"
         onChange={setNoiseEnabled}
         value={settings.advanced.noiseEnabled}
       />

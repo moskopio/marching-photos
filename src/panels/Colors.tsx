@@ -52,7 +52,7 @@ function Settings(): ReactElement {
     <div className="panel-section">
       <Checkbox
         color={pallette.getNextColor()}
-        label="Disable shading"
+        label="Disabled shading"
         onChange={setShadingDisabled}
         value={settings.advanced.shadingDisabled}
       />
