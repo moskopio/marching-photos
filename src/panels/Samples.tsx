@@ -87,7 +87,7 @@ function Samples(): ReactElement {
       <Slider
         label={`Samples: ${Math.floor(settings.samples[0])}`}
         min={4}
-        max={1024}
+        max={256}
         onChange={setXSamples}
         value={settings.samples[0]}
         defaultValue={100}
@@ -138,8 +138,8 @@ function Settings(): ReactElement {
     settingsDispatch({ advanced: { pushDisabled } })
   }, [settingsDispatch])
   
-  const setPushReversed = useCallback((pushReversed: boolean) => {
-    settingsDispatch({ advanced: { pushReversed } })
+  const setNoiseEnabled = useCallback((noiseEnabled: boolean) => {
+    settingsDispatch({ advanced: { noiseEnabled } })
   }, [settingsDispatch])
   
   
@@ -159,15 +159,15 @@ function Settings(): ReactElement {
       />
       <Checkbox
         color={pallette.getNextColor()}
-        label="Reverse push"
-        onChange={setPushReversed}
-        value={settings.advanced.pushReversed}
-      />
-      <Checkbox
-        color={pallette.getNextColor()}
         label="Disable push"
         onChange={setPushDisabled}
         value={settings.advanced.pushDisabled}
+      />
+      <Checkbox
+        color={pallette.getNextColor()}
+        label="Enable random noise"
+        onChange={setNoiseEnabled}
+        value={settings.advanced.noiseEnabled}
       />
     </div>
   )

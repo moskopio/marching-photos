@@ -23,7 +23,7 @@ uniform float uColoring;
 #define FLAG_SCALING_REVERSE  4
 #define FLAG_COLOR_REVERSE    8
 #define FLAG_PUSH_DISABLED    16
-#define FLAG_PUSH_REVERSE     32
+#define FLAG_NOISE_ENABLED    32
 uniform int uFlags;
 
 struct Scene {
